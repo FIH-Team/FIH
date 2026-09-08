@@ -78,6 +78,21 @@
   padding: 0;
 }
 
+/* ==========================================================================
+   Global Window & Document Scrollbar: Invisible in Announcements & General Views
+   ========================================================================== */
+html {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--bg-base);
@@ -85,9 +100,18 @@ body {
   line-height: 1.55;
   min-height: 100vh;
   overflow-x: hidden;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 .ambient-glow-mesh {
@@ -100,6 +124,114 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.app-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* ==========================================================================
+   Tab Viewport Lock: Messages & Feels Tabs (Zero Outer/Browser Scrollbar)
+   ========================================================================== */
+html[data-active-tab="messaging"],
+html[data-active-tab="reels"],
+body[data-active-tab="messaging"],
+body[data-active-tab="reels"] {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+body[data-active-tab="messaging"] .app-container,
+body[data-active-tab="reels"] .app-container {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+/* ==========================================================================
+   Internal Section Scrollbars (Preserved, Visible & Styled Cleanly)
+   ========================================================================== */
+.conversations-list,
+.chat-messages-stream,
+.drawer-applications-list,
+.drawer-scroll-body,
+.modal-dialog-content,
+.user-switch-menu {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(140, 140, 160, 0.35) transparent !important;
+}
+
+.conversations-list::-webkit-scrollbar,
+.chat-messages-stream::-webkit-scrollbar,
+.drawer-applications-list::-webkit-scrollbar,
+.drawer-scroll-body::-webkit-scrollbar,
+.modal-dialog-content::-webkit-scrollbar,
+.user-switch-menu::-webkit-scrollbar {
+  display: block !important;
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.conversations-list::-webkit-scrollbar-track,
+.chat-messages-stream::-webkit-scrollbar-track,
+.drawer-applications-list::-webkit-scrollbar-track,
+.drawer-scroll-body::-webkit-scrollbar-track,
+.modal-dialog-content::-webkit-scrollbar-track,
+.user-switch-menu::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.conversations-list::-webkit-scrollbar-thumb,
+.chat-messages-stream::-webkit-scrollbar-thumb,
+.drawer-applications-list::-webkit-scrollbar-thumb,
+.drawer-scroll-body::-webkit-scrollbar-thumb,
+.modal-dialog-content::-webkit-scrollbar-thumb,
+.user-switch-menu::-webkit-scrollbar-thumb {
+  background: rgba(140, 140, 160, 0.35) !important;
+  border-radius: 9999px !important;
+}
+
+.conversations-list::-webkit-scrollbar-thumb:hover,
+.chat-messages-stream::-webkit-scrollbar-thumb:hover,
+.drawer-applications-list::-webkit-scrollbar-thumb:hover,
+.drawer-scroll-body::-webkit-scrollbar-thumb:hover,
+.modal-dialog-content::-webkit-scrollbar-thumb:hover,
+.user-switch-menu::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 140, 160, 0.65) !important;
+}
+
+/* Light Theme refinements for internal scrollbars */
+[data-theme="light"] .conversations-list,
+[data-theme="light"] .chat-messages-stream,
+[data-theme="light"] .drawer-applications-list,
+[data-theme="light"] .drawer-scroll-body,
+[data-theme="light"] .modal-dialog-content,
+[data-theme="light"] .user-switch-menu {
+  scrollbar-color: rgba(0, 0, 0, 0.22) transparent !important;
+}
+
+[data-theme="light"] .conversations-list::-webkit-scrollbar-thumb,
+[data-theme="light"] .chat-messages-stream::-webkit-scrollbar-thumb,
+[data-theme="light"] .drawer-applications-list::-webkit-scrollbar-thumb,
+[data-theme="light"] .drawer-scroll-body::-webkit-scrollbar-thumb,
+[data-theme="light"] .modal-dialog-content::-webkit-scrollbar-thumb,
+[data-theme="light"] .user-switch-menu::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.22) !important;
+}
+
+[data-theme="light"] .conversations-list::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] .chat-messages-stream::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] .drawer-applications-list::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] .drawer-scroll-body::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] .modal-dialog-content::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] .user-switch-menu::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.45) !important;
 }
 
 /* ==========================================================================
@@ -482,7 +614,11 @@ body {
 #messagingView.main-view.active {
   display: flex !important;
   flex-direction: column !important;
-  flex: 1 1 auto !important;
+  flex: 1 1 0 !important;
+  height: calc(100vh - 68px) !important;
+  max-height: calc(100vh - 68px) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
 }
 
 /* ==========================================================================
@@ -1164,9 +1300,10 @@ html[data-theme="dark"][data-ui-style="intelly"] .category-toggle-btn.active {
 }
 
 .messaging-view.active {
-  height: calc(100vh - 80px) !important;
-  min-height: calc(100vh - 80px) !important;
-  flex: 1 1 auto !important;
+  height: calc(100vh - 68px) !important;
+  max-height: calc(100vh - 68px) !important;
+  min-height: 0 !important;
+  flex: 1 1 0 !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
@@ -1535,12 +1672,16 @@ html[data-theme="dark"][data-ui-style="intelly"] .category-toggle-btn.active {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 65px);
+  height: calc(100vh - 68px) !important;
+  max-height: calc(100vh - 68px) !important;
+  min-height: 0 !important;
+  flex: 1 1 0 !important;
   width: 100%;
   margin: 0 auto;
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   background: var(--bg-base);
   box-sizing: border-box;
+  overflow: hidden !important;
 }
 
 .feels-centered-container {
@@ -3493,8 +3634,10 @@ dialog.modal-dialog::backdrop {
 [data-ui-style="sapphire"] .messaging-view.active {
   background: #14141e !important;
   padding: 0.65rem 1.25rem 0.65rem !important;
-  height: calc(100vh - 80px) !important;
+  height: calc(100vh - 68px) !important;
+  max-height: calc(100vh - 68px) !important;
   min-height: 0 !important;
+  flex: 1 1 0 !important;
   box-sizing: border-box !important;
   display: flex !important;
   flex-direction: column !important;
@@ -4180,8 +4323,10 @@ dialog.modal-dialog::backdrop {
 [data-ui-style="crimson"] .messaging-view.active {
   background: transparent !important;
   padding: 0.65rem 1.25rem 0.65rem !important;
-  height: calc(100vh - 80px) !important;
+  height: calc(100vh - 68px) !important;
+  max-height: calc(100vh - 68px) !important;
   min-height: 0 !important;
+  flex: 1 1 0 !important;
   box-sizing: border-box !important;
   display: flex !important;
   flex-direction: column !important;
@@ -5135,9 +5280,10 @@ dialog.modal-dialog::backdrop {
 [data-ui-style="intelly"] .messaging-view.active {
   background: #f7f4ed;
   padding: 0.5rem 1rem 0.5rem !important;
-  height: calc(100vh - 80px) !important;
-  min-height: calc(100vh - 80px) !important;
-  flex: 1 1 auto !important;
+  height: calc(100vh - 68px) !important;
+  max-height: calc(100vh - 68px) !important;
+  min-height: 0 !important;
+  flex: 1 1 0 !important;
   box-sizing: border-box !important;
   display: flex !important;
   flex-direction: column !important;
@@ -9519,3 +9665,72 @@ dialog.profile-drawer-dialog {
 [data-ui-style="intelly"] .profile-chevron {
   display: none !important;
 }
+
+/* ==========================================================================
+   Radial Theme Transition (Expand Outward & Shrink Inward)
+   ========================================================================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none !important;
+  mix-blend-mode: normal !important;
+  display: block;
+  position: fixed;
+  inset: 0;
+}
+
+/* When expanding outward (Dark -> Light): New view expands on top */
+html.theme-transition-expand::view-transition-new(root) {
+  z-index: 999999 !important;
+}
+html.theme-transition-expand::view-transition-old(root) {
+  z-index: 1 !important;
+}
+
+/* When shrinking inward (Light -> Dark): Old view on top, shrinking into the button */
+html.theme-transition-shrink::view-transition-old(root) {
+  z-index: 999999 !important;
+}
+html.theme-transition-shrink::view-transition-new(root) {
+  z-index: 1 !important;
+}
+
+/* Disable generic CSS transitions during view transition snapshot to avoid lag */
+html.in-theme-transition *,
+html.in-theme-transition *::before,
+html.in-theme-transition *::after {
+  transition: none !important;
+}
+
+/* Theme Toggle Button Spin Micro-Interactions */
+.theme-toggle-spin-forward {
+  animation: themeBtnSpinForward 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.theme-toggle-spin-backward {
+  animation: themeBtnSpinBackward 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes themeBtnSpinForward {
+  0% {
+    transform: rotate(0deg) scale(0.9);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.22);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes themeBtnSpinBackward {
+  0% {
+    transform: rotate(0deg) scale(0.9);
+  }
+  50% {
+    transform: rotate(-180deg) scale(1.22);
+  }
+  100% {
+    transform: rotate(-360deg) scale(1);
+  }
+}
+

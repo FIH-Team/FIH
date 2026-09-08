@@ -495,6 +495,8 @@ function formatChatTimestamp(rawTs) {
 
 function switchTab(tabName) {
   state.activeTab = tabName;
+  document.body.setAttribute('data-active-tab', tabName);
+  document.documentElement.setAttribute('data-active-tab', tabName);
   document.querySelector('.app-header')?.classList.remove('mobile-nav-open');
   mobileNavToggle?.setAttribute('aria-expanded', 'false');
 
@@ -2701,16 +2703,171 @@ function initTheme() {
   applyThemePalette(preset, false);
 }
 
-if (themeToggleBtn) {
-  themeToggleBtn.onclick = () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
-    const preset = next === 'light' ? THEME_PRESETS['paper-white'] : THEME_PRESETS['smart-black'];
+let isThemeTransitioning = false;
+
+function toggleThemeWithRadialAnimation(event) {
+  if (isThemeTransitioning) return;
+
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  const isGoingLight = next === 'light'; // true: expand outward, false: shrink inward
+  const preset = isGoingLight ? THEME_PRESETS['paper-white'] : THEME_PRESETS['smart-black'];
+
+  // Button micro-interaction spin animation
+  if (themeToggleBtn) {
+    themeToggleBtn.classList.remove('theme-toggle-spin-forward', 'theme-toggle-spin-backward');
+    void themeToggleBtn.offsetWidth; // Force reflow
+    themeToggleBtn.classList.add(isGoingLight ? 'theme-toggle-spin-forward' : 'theme-toggle-spin-backward');
+  }
+
+  // Calculate coordinates originating at the themeToggleBtn center
+  let x = window.innerWidth - 60;
+  let y = 35;
+  if (themeToggleBtn) {
+    const rect = themeToggleBtn.getBoundingClientRect();
+    x = rect.left + rect.width / 2;
+    y = rect.top + rect.height / 2;
+  } else if (event && event.clientX && event.clientY) {
+    x = event.clientX;
+    y = event.clientY;
+  }
+
+  // Maximum radius needed to reach the furthest corner of the viewport
+  const endRadius = Math.hypot(
+    Math.max(x, window.innerWidth - x),
+    Math.max(y, window.innerHeight - y)
+  );
+
+  const applyNewTheme = () => {
     applyThemePalette(preset, true);
     if (state.uiStyle === 'intelly') {
       applyIntellyPastelPalette();
     }
+  };
+
+  // Check prefers-reduced-motion
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    applyNewTheme();
     showToast(next === 'dark' ? 'Switched to Dark Mode' : 'Switched to Light Mode', 'info');
+    return;
+  }
+
+  // Modern View Transitions API with radial clip-path animation
+  if (document.startViewTransition) {
+    isThemeTransitioning = true;
+    const transitionClass = isGoingLight ? 'theme-transition-expand' : 'theme-transition-shrink';
+    document.documentElement.classList.add('in-theme-transition', transitionClass);
+
+    const transition = document.startViewTransition(() => {
+      applyNewTheme();
+    });
+
+    transition.ready.then(() => {
+      if (isGoingLight) {
+        // Expand outward from button to reveal new Light theme
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`
+            ]
+          },
+          {
+            duration: 650,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            pseudoElement: '::view-transition-new(root)'
+          }
+        );
+      } else {
+        // Shrink inward back into button to reveal Dark theme underneath
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(${endRadius}px at ${x}px ${y}px)`,
+              `circle(0px at ${x}px ${y}px)`
+            ]
+          },
+          {
+            duration: 650,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            pseudoElement: '::view-transition-old(root)'
+          }
+        );
+      }
+    }).catch(err => {
+      console.warn('View transition notice:', err);
+    });
+
+    transition.finished.finally(() => {
+      document.documentElement.classList.remove('in-theme-transition', 'theme-transition-expand', 'theme-transition-shrink');
+      isThemeTransitioning = false;
+      showToast(next === 'dark' ? 'Switched to Dark Mode' : 'Switched to Light Mode', 'info');
+    });
+  } else {
+    // Fallback radial overlay for browsers without View Transitions
+    isThemeTransitioning = true;
+    runRadialFallbackOverlay(isGoingLight, x, y, endRadius, applyNewTheme, () => {
+      isThemeTransitioning = false;
+      showToast(next === 'dark' ? 'Switched to Dark Mode' : 'Switched to Light Mode', 'info');
+    });
+  }
+}
+
+function runRadialFallbackOverlay(isGoingLight, x, y, endRadius, updateFn, onComplete) {
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.inset = '0';
+  overlay.style.pointerEvents = 'none';
+  overlay.style.zIndex = '999999';
+
+  if (isGoingLight) {
+    overlay.style.backgroundColor = '#f8f9fa';
+    overlay.style.clipPath = `circle(0px at ${x}px ${y}px)`;
+    document.body.appendChild(overlay);
+
+    const anim = overlay.animate(
+      [
+        { clipPath: `circle(0px at ${x}px ${y}px)` },
+        { clipPath: `circle(${endRadius}px at ${x}px ${y}px)` }
+      ],
+      {
+        duration: 550,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+      }
+    );
+
+    anim.onfinish = () => {
+      updateFn();
+      overlay.remove();
+      onComplete();
+    };
+  } else {
+    overlay.style.backgroundColor = '#ffffff';
+    overlay.style.clipPath = `circle(${endRadius}px at ${x}px ${y}px)`;
+    document.body.appendChild(overlay);
+    updateFn();
+
+    const anim = overlay.animate(
+      [
+        { clipPath: `circle(${endRadius}px at ${x}px ${y}px)` },
+        { clipPath: `circle(0px at ${x}px ${y}px)` }
+      ],
+      {
+        duration: 550,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+      }
+    );
+
+    anim.onfinish = () => {
+      overlay.remove();
+      onComplete();
+    };
+  }
+}
+
+if (themeToggleBtn) {
+  themeToggleBtn.onclick = (e) => {
+    toggleThemeWithRadialAnimation(e);
   };
 }
 
@@ -4017,6 +4174,8 @@ renderCategoryBar();
 renderAnnouncements();
 renderConversationsList();
 renderActiveReel();
+document.body.setAttribute('data-active-tab', state.activeTab || 'announcements');
+document.documentElement.setAttribute('data-active-tab', state.activeTab || 'announcements');
 refreshIcons();
 
 // Start WebSocket connection and fetch fresh backend database
