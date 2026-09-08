@@ -152,7 +152,7 @@ export async function handleApiRequest(req, res, next) {
         isVacancy: body.category === 'vacancies',
         accentColor: body.isClubOnly ? '#ec4899' : (body.category === 'vacancies' ? '#f59e0b' : '#8b5cf6'),
         icon: body.isClubOnly ? 'lock' : (body.category === 'vacancies' ? 'briefcase' : 'sparkles'),
-        compensation: body.compensation || '🪙 500 KP Credit',
+        compensation: body.compensation || '500 KP Credit',
         bountyKarma: parseInt(body.bountyKarma, 10) || 500,
         clubName: body.clubName || undefined,
         isClubOnly: Boolean(body.isClubOnly && body.clubName),
@@ -394,8 +394,8 @@ export async function handleApiRequest(req, res, next) {
                 id: `m-${Date.now()}`,
                 senderId: app.organizerId,
                 senderName: organizer ? organizer.name : 'Organizer',
-                text: `🎉 Congratulations! Your application for "${app.itemTitle}" has been accepted. Let's coordinate here.`,
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                text: `Congratulations! Your application for "${app.itemTitle}" has been accepted. Let's coordinate here.`,
+                timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
               }
             ]
           };
@@ -508,7 +508,7 @@ export async function handleApiRequest(req, res, next) {
         senderId: currentUserId,
         senderName: sender.name,
         text: body.text,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
         read: false
       };
 

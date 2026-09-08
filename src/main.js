@@ -52,7 +52,17 @@ import {
   Menu,
   X,
   Settings,
-  LogOut
+  LogOut,
+  Coins,
+  Landmark,
+  Bot,
+  Rocket,
+  Wrench,
+  Database,
+  Share2,
+  Megaphone,
+  Video,
+  FileText
 } from 'lucide';
 import confetti from 'canvas-confetti';
 import {
@@ -404,7 +414,17 @@ export function refreshIcons() {
       Menu,
       X,
       Settings,
-      LogOut
+      LogOut,
+      Coins,
+      Landmark,
+      Bot,
+      Rocket,
+      Wrench,
+      Database,
+      Share2,
+      Megaphone,
+      Video,
+      FileText
     }
   });
 }
@@ -442,6 +462,31 @@ function formatRelativeTime(dateString) {
   const diffHours = Math.floor(diffMinutes / 60);
   if (diffHours < 24) return `${diffHours}h ago`;
   return `${Math.floor(diffHours / 24)}d ago`;
+}
+
+function formatChatTimestamp(rawTs) {
+  if (!rawTs) return '';
+  const str = String(rawTs).trim();
+  if (str.toLowerCase() === 'yesterday') return 'Yesterday';
+  const timeRegex = /^(\d{1,2}):(\d{2})\s*(am|pm|AM|PM)?$/i;
+  const match = str.match(timeRegex);
+  if (match) {
+    let hour = parseInt(match[1], 10);
+    const minute = match[2];
+    let meridiem = (match[3] || '').toUpperCase();
+    if (!meridiem) {
+      meridiem = hour >= 12 ? 'PM' : 'AM';
+      if (hour > 12) hour -= 12;
+      if (hour === 0) hour = 12;
+    }
+    const padHour = String(hour).padStart(2, '0');
+    return `${padHour}:${minute} ${meridiem}`;
+  }
+  const d = new Date(str);
+  if (!isNaN(d.getTime())) {
+    return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+  }
+  return str;
 }
 
 // ============================================================================
@@ -565,7 +610,7 @@ function syncUserProfileToUI() {
   // Intelly Joined Clubs Chips with Manage Link
   if (intellyDossierClubs && userProfile.clubs) {
     intellyDossierClubs.innerHTML = userProfile.clubs.map(c => `
-      <span class="intelly-chip chip-lilac" style="font-weight: 700;">🏛️ ${c}</span>
+      <span class="intelly-chip chip-lilac" style="font-weight: 700;"><i data-lucide="landmark" class="lucide-icon-xs"></i> ${c}</span>
     `).join('');
   }
 
@@ -649,7 +694,7 @@ function ensureInitialUserPosts() {
       authorHandle: userProfile.handle,
       openPositions: 3,
       claimedPositions: 1,
-      compensation: '🪙 1,200 Karma Points + Council Lead Badge',
+      compensation: '1,200 Karma Points + Council Lead Badge',
       accentColor: '#f59e0b',
       icon: 'briefcase',
       clubName: 'Design Guild',
@@ -773,7 +818,7 @@ function setupDashboardProfileEditing() {
       renderAnnouncements();
       renderCategoryBar();
       triggerConfetti();
-      showToast('🎉 Profile & Club Memberships updated successfully!', 'success');
+      showToast('Profile & Club Memberships updated successfully!', 'success');
       switchProfileDashboardTab('overview');
     };
   }
@@ -844,7 +889,7 @@ function deleteUserPost(postId, postType) {
     renderAnnouncements();
   }
   renderUserPosts();
-  showToast('🗑️ Post removed from campus board', 'info');
+  showToast('Post removed from campus board', 'info');
 }
 
 function handleViewUserPost(postId, postType) {
@@ -888,7 +933,7 @@ function renderUserPosts() {
   if (allUserPosts.length === 0) {
     container.innerHTML = `
       <div style="text-align: center; padding: 2rem 1rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border-radius: var(--radius-sm); border: 1px dashed var(--border-subtle);">
-        <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">📝</span>
+        <i data-lucide="file-text" style="width: 2rem; height: 2rem; display: block; margin: 0 auto 0.5rem; opacity: 0.6;"></i>
         <strong style="display: block; font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.3rem;">No posts published yet</strong>
         <p style="font-size: 0.78rem; margin-bottom: 1rem;">Post announcements, club vacancies, or gig feels to recruit peers.</p>
         <button type="button" class="btn-primary" id="emptyStateNewPostBtn" style="padding: 0.4rem 0.9rem; font-size: 0.78rem; border-radius: 9999px;">
@@ -909,15 +954,15 @@ function renderUserPosts() {
   container.innerHTML = allUserPosts.map(post => {
     let typeBadge = '';
     if (post.postType === 'vacancy') {
-      typeBadge = `<span class="user-post-type-badge badge-type-vacancy">💼 Vacancy</span>`;
+      typeBadge = `<span class="user-post-type-badge badge-type-vacancy"><i data-lucide="briefcase" class="lucide-icon-xs"></i> Vacancy</span>`;
     } else if (post.postType === 'feel') {
-      typeBadge = `<span class="user-post-type-badge badge-type-feel">🎬 Feel Gig</span>`;
+      typeBadge = `<span class="user-post-type-badge badge-type-feel"><i data-lucide="video" class="lucide-icon-xs"></i> Feel Gig</span>`;
     } else {
-      typeBadge = `<span class="user-post-type-badge badge-type-notice">📢 Notice</span>`;
+      typeBadge = `<span class="user-post-type-badge badge-type-notice"><i data-lucide="megaphone" class="lucide-icon-xs"></i> Notice</span>`;
     }
 
     const subtitle = post.postType === 'feel'
-      ? `🪙 ${post.bountyKarma || 1200} KP • ${post.bountyCash || 'Perks'}`
+      ? `${post.bountyKarma || 1200} KP • ${post.bountyCash || 'Perks'}`
       : `${post.compensation || 'Campus Karma Credit'} • ${post.rsvps || 0} RSVPs`;
 
     return `
@@ -1008,7 +1053,7 @@ function setupProfileEditing() {
       renderCategoryBar();
       if (modal) modal.close();
       triggerConfetti();
-      showToast('🎉 Scholar profile updated successfully!', 'success');
+      showToast('Scholar profile updated successfully!', 'success');
     };
   }
 
@@ -1097,7 +1142,7 @@ function renderApplicationsList() {
             <span class="app-status-badge app-status-applied">${app.status}</span>
           </div>
           <div class="app-applied-meta">
-            <span>👤 ${app.organizer} • ⚡ ${app.compensation}</span>
+            <span><i data-lucide="user" class="lucide-icon-xs"></i> ${app.organizer} • <i data-lucide="zap" class="lucide-icon-xs"></i> ${app.compensation}</span>
             <button class="btn-withdraw-app" data-app-id="${app.id}">Withdraw</button>
           </div>
         </div>
@@ -1263,6 +1308,39 @@ if (filterVacanciesToggleBtn) {
   };
 }
 
+// ----------------------------------------------------------------------------
+// Announcements Category Tags Toggle Controller (Circular Vector Icon)
+// ----------------------------------------------------------------------------
+const categoryToggleBtn = document.getElementById('categoryToggleBtn');
+const announcementsControlsBar = document.getElementById('announcementsControlsBar');
+
+const savedCategoriesCollapsed = localStorage.getItem('fih_categories_collapsed');
+// Default to collapsed so the top row tags are housed inside the circular vector icon
+let isCategoriesCollapsed = savedCategoriesCollapsed !== null ? savedCategoriesCollapsed === 'true' : true;
+
+function updateCategoryToggleState() {
+  if (announcementsControlsBar) {
+    announcementsControlsBar.classList.toggle('categories-collapsed', isCategoriesCollapsed);
+  }
+  if (categoryToggleBtn) {
+    categoryToggleBtn.classList.toggle('active', !isCategoriesCollapsed);
+    categoryToggleBtn.setAttribute('aria-expanded', String(!isCategoriesCollapsed));
+    categoryToggleBtn.setAttribute('title', isCategoriesCollapsed ? 'Show Category Tags' : 'Hide Category Tags in Icon');
+  }
+  localStorage.setItem('fih_categories_collapsed', String(isCategoriesCollapsed));
+}
+
+if (categoryToggleBtn) {
+  categoryToggleBtn.onclick = (e) => {
+    e.stopPropagation();
+    isCategoriesCollapsed = !isCategoriesCollapsed;
+    updateCategoryToggleState();
+  };
+}
+
+// Apply initial state
+updateCategoryToggleState();
+
 if (filterClubOnlyToggleBtn) {
   filterClubOnlyToggleBtn.onclick = () => {
     state.filterClubOnly = !state.filterClubOnly;
@@ -1387,7 +1465,7 @@ function renderAnnouncements() {
       : null;
 
     const clubBadgeHtml = item.isClubOnly
-      ? `<span class="club-privacy-badge badge-club-private" title="Exclusive to members of ${item.clubName}"><i data-lucide="lock" class="lucide-icon-xs"></i> 🔒 ${item.clubName} (Members Only)</span>`
+      ? `<span class="club-privacy-badge badge-club-private" title="Exclusive to members of ${item.clubName}"><i data-lucide="lock" class="lucide-icon-xs"></i> ${item.clubName} (Members Only)</span>`
       : (item.clubName ? `<span class="club-privacy-badge badge-club-public" title="Public announcement from ${item.clubName}"><i data-lucide="globe" class="lucide-icon-xs"></i> ${item.clubName}</span>` : '');
 
     const orgName = item.organizer?.name || (typeof item.organizer === 'string' ? item.organizer : 'Student Lead');
@@ -1409,7 +1487,7 @@ function renderAnnouncements() {
               <span class="ig-badge-dot">•</span>
               <span class="ig-category-tag">${item.categoryLabel || 'Notice'}</span>
               ${clubBadgeHtml}
-              ${item.isUrgent ? `<span class="ig-urgent-dot" title="Urgent Notice">🔥</span>` : ''}
+              ${item.isUrgent ? `<span class="ig-urgent-dot" title="Urgent Notice"><i data-lucide="flame" class="lucide-icon-xs"></i></span>` : ''}
             </div>
             <span class="ig-sub-location">${item.location ? item.location.split(',')[0] : 'Campus Wide'} • ${formatRelativeTime(item.publishedAt)}</span>
           </div>
@@ -1436,7 +1514,7 @@ function renderAnnouncements() {
         ${positionsLeft !== null ? `
           <div class="ig-slots-bar">
             <div class="ig-slots-info">
-              <span>⚡ <strong>${positionsLeft}</strong> of ${item.openPositions} slots open</span>
+              <span><i data-lucide="zap" class="lucide-icon-xs"></i> <strong>${positionsLeft}</strong> of ${item.openPositions} slots open</span>
               <span class="ig-slots-pct">${progressPct}% filled</span>
             </div>
             <div class="ig-progress-track">
@@ -1563,7 +1641,7 @@ function toggleBookmark(id) {
   item.isBookmarked = !item.isBookmarked;
   localStorage.setItem(STORAGE_KEYS.ANNOUNCEMENTS, JSON.stringify(announcements));
   renderAnnouncements();
-  showToast(item.isBookmarked ? '🔖 Notice bookmarked!' : 'Removed from bookmarks', 'info');
+  showToast(item.isBookmarked ? 'Notice bookmarked!' : 'Removed from bookmarks', 'info');
 }
 
 function handleShareNotice(item) {
@@ -1575,7 +1653,7 @@ function handleShareNotice(item) {
     }).catch(() => {});
   } else {
     navigator.clipboard.writeText(`${item.title} - ${window.location.href}`);
-    showToast('🔗 Notice link copied to clipboard!', 'info');
+    showToast('Notice link copied to clipboard!', 'info');
   }
 }
 
@@ -1589,7 +1667,7 @@ async function toggleRsvp(id) {
     }
     if (res.hasRsvpd) {
       triggerConfetti();
-      showToast('🎉 RSVP confirmed on campus network!', 'success');
+      showToast('RSVP confirmed on campus network!', 'success');
     } else {
       showToast('RSVP removed', 'info');
     }
@@ -1624,7 +1702,7 @@ async function openDetailModal(id) {
       <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
           <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #ffffff;">
-            👥 Review Applicants (${itemApps.length})
+            Review Applicants (${itemApps.length})
           </h4>
           <span style="font-size: 0.75rem; color: var(--text-secondary);">Real-time Submissions</span>
         </div>
@@ -1655,7 +1733,7 @@ async function openDetailModal(id) {
                 </div>
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end;">
                   <button type="button" class="btn-rsvp-toggle btn-app-chat" data-applicant-id="${app.applicantId}" style="padding: 0.35rem 0.65rem; font-size: 0.74rem;">
-                    💬 Chat
+                    <i data-lucide="message-square" class="lucide-icon-xs"></i> Chat
                   </button>
                   ${app.status === 'pending' ? `
                     <button type="button" class="btn-rsvp-toggle btn-app-reject" data-app-id="${app.id}" style="padding: 0.35rem 0.65rem; font-size: 0.74rem; color: #ef4444; border-color: rgba(239,68,68,0.3);">
@@ -1667,7 +1745,7 @@ async function openDetailModal(id) {
                   ` : ''}
                   ${app.status === 'accepted' ? `
                     <button type="button" class="btn-primary btn-app-complete" data-app-id="${app.id}" style="padding: 0.35rem 0.75rem; font-size: 0.74rem; background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 800;">
-                      🪙 Complete & Award +${item.bountyKarma || 800} KP
+                      Complete & Award +${item.bountyKarma || 800} KP
                     </button>
                   ` : ''}
                   ${app.status === 'completed' ? `
@@ -1694,7 +1772,7 @@ async function openDetailModal(id) {
             </span>
           </div>
           <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0;">
-            ${myApp.status === 'completed' ? '🎉 This gig has been marked completed and your Karma Points have been credited!' : myApp.status === 'accepted' ? '🎉 Congratulations! Your application has been accepted. Coordinate directly with the organizer in Messaging.' : 'Your pitch has been submitted and is currently under review by the council lead.'}
+            ${myApp.status === 'completed' ? 'This gig has been marked completed and your Karma Points have been credited!' : myApp.status === 'accepted' ? 'Congratulations! Your application has been accepted. Coordinate directly with the organizer in Messaging.' : 'Your pitch has been submitted and is currently under review by the council lead.'}
           </p>
         </div>
       `;
@@ -1716,12 +1794,12 @@ async function openDetailModal(id) {
     </h2>
     <div style="font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
       <span>Organized by <strong>${item.organizer?.name || (typeof item.organizer === 'string' ? item.organizer : 'Student Lead')}</strong> (${item.organizer?.role || 'Campus Lead'})</span>
-      ${item.clubName ? `<span class="club-privacy-badge ${item.isClubOnly ? 'badge-club-private' : 'badge-club-public'}">${item.isClubOnly ? '🔒 ' + item.clubName + ' (Private)' : '🌐 ' + item.clubName + ' (Public)'}</span>` : ''}
+      ${item.clubName ? `<span class="club-privacy-badge ${item.isClubOnly ? 'badge-club-private' : 'badge-club-public'}"><i data-lucide="${item.isClubOnly ? 'lock' : 'globe'}" class="lucide-icon-xs"></i> ${item.clubName} ${item.isClubOnly ? '(Private)' : '(Public)'}</span>` : ''}
     </div>
 
     ${item.compensation ? `
       <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14); padding: 0.75rem 1rem; border-radius: var(--radius-sm); color: #ffffff; font-weight: 700; font-size: 0.88rem; margin: 0.75rem 0;">
-        ⚡ Compensation: ${item.compensation}
+        Compensation: ${item.compensation}
       </div>
     ` : ''}
 
@@ -1764,7 +1842,7 @@ async function openDetailModal(id) {
         try {
           const res = await apiUpdateApplicationStatus(appId, 'completed');
           triggerConfetti();
-          showToast(`🪙 Awarded +${res.karmaAwarded} Karma Points to student!`, 'success', 4000);
+          showToast(`Awarded +${res.karmaAwarded} Karma Points to student!`, 'success', 4000);
           openDetailModal(item.id);
         } catch (err) {
           showToast(err.message, 'warning');
@@ -1813,7 +1891,7 @@ async function openDetailModal(id) {
           pitch
         });
         triggerConfetti();
-        showToast('🎉 Application successfully submitted to organizer!', 'success', 3500);
+        showToast('Application successfully submitted to organizer!', 'success', 3500);
         openDetailModal(item.id);
         renderAnnouncements();
       } catch (err) {
@@ -1826,7 +1904,7 @@ async function openDetailModal(id) {
 }
 
 closeDetailModalBtn.onclick = () => detailModal.close();
-openCreateModalBtn.onclick = () => createModal.showModal();
+if (openCreateModalBtn) openCreateModalBtn.onclick = () => createModal.showModal();
 closeCreateModalBtn.onclick = () => createModal.close();
 cancelCreateBtn.onclick = () => createModal.close();
 
@@ -1858,7 +1936,7 @@ createAnnouncementForm.onsubmit = async (e) => {
     createAnnouncementForm.reset();
     createModal.close();
     triggerConfetti();
-    showToast('🎉 Notice published live to campus network!', 'success');
+    showToast('Notice published live to campus network!', 'success');
     renderAnnouncements();
     renderUserPosts();
   } catch (err) {
@@ -1949,13 +2027,13 @@ function renderConversationsList() {
         ${c.avatarLetter || (c.partnerName ? c.partnerName.substring(0, 2) : 'CK')}
       </div>
       <div class="conversation-meta">
-        <div class="conversation-top-row">
-          <span class="partner-name">${c.partnerName || 'Peer'}</span>
-          <span class="msg-timestamp">${lastMsg?.timestamp || ''}</span>
-        </div>
-        <div class="last-msg-preview">${lastMsg?.text || c.topicContext || 'Start conversation'}</div>
+        <span class="partner-name">${escapeHtml(c.partnerName || 'Peer')}</span>
+        <div class="last-msg-preview">${escapeHtml(lastMsg?.text || c.topicContext || 'Start conversation')}</div>
       </div>
-      ${c.unreadCount ? `<span class="unread-pill">${c.unreadCount}</span>` : ''}
+      <div class="conversation-trailing">
+        <span class="msg-timestamp">${formatChatTimestamp(lastMsg?.timestamp)}</span>
+        ${c.unreadCount ? `<span class="unread-pill">${c.unreadCount}</span>` : '<span class="unread-spacer" aria-hidden="true"></span>'}
+      </div>
     `;
 
     item.onclick = () => {
@@ -2014,7 +2092,7 @@ function renderActiveChat() {
         ${m.senderName || (isMe ? 'You' : conv.partnerName)}
       </div>
       <div>${escapeHtml(m.text)}</div>
-      <div class="bubble-footer">${m.timestamp || ''}</div>
+      <div class="bubble-footer">${formatChatTimestamp(m.timestamp)}</div>
     `;
     chatMessagesStream.appendChild(b);
   });
@@ -2075,7 +2153,7 @@ function renderFeelsFeed() {
             <div style="font-size: 0.74rem; color: #a1a1aa;">${reel.clientRole}</div>
           </div>
         </div>
-        <span class="feel-urgency-badge">⚡ FIRST COME</span>
+        <span class="feel-urgency-badge"><i data-lucide="zap" class="lucide-icon-xs"></i> FIRST COME</span>
       </div>
 
       <!-- Middle Body: Title, Problem Box & Skills -->
@@ -2096,16 +2174,16 @@ function renderFeelsFeed() {
       <!-- Bottom Footer: Bounty & Action Buttons -->
       <div class="feel-bottom-actions">
         <div class="feel-bounty-row">
-          <span class="bounty-amount-text">⚡ +${reel.bountyKarma.toLocaleString()} Karma Points</span>
+          <span class="bounty-amount-text"><i data-lucide="zap" class="lucide-icon-xs"></i> +${reel.bountyKarma.toLocaleString()} Karma Points</span>
           <span class="bounty-stipend-text">${reel.bountyCash} Stipend</span>
         </div>
 
         <div class="feel-buttons-row">
           <button class="btn-primary btn-claim-feel" data-index="${index}" style="flex: 1; padding: 0.65rem 1rem;">
-            ⚡ Claim Problem
+            <i data-lucide="zap" class="lucide-icon-xs"></i> Claim Problem
           </button>
           <button class="btn-rsvp-toggle btn-chat-feel" data-id="${reel.id}" style="padding: 0.65rem 0.9rem;">
-            💬 Chat
+            <i data-lucide="message-square" class="lucide-icon-xs"></i> Chat
           </button>
         </div>
       </div>
@@ -2227,7 +2305,7 @@ confirmAcceptGigBtn.onclick = async () => {
     });
     triggerConfetti();
     applyGigModal.close();
-    showToast(`🎉 Gig application submitted to ${reel.clientName} for review!`, 'success', 3500);
+    showToast(`Gig application submitted to ${reel.clientName} for review!`, 'success', 3500);
     apiGetApplications('mine').then(apps => {
       applications = apps;
       renderApplicationsList();
@@ -2335,7 +2413,7 @@ createReelForm.onsubmit = async (e) => {
     renderFeelsFeed();
     scrollToFeel(0);
     triggerConfetti();
-    showToast('🎬 New campus feel published live to network!', 'success', 3000);
+    showToast('New campus feel published live to network!', 'success', 3000);
   } catch (err) {
     showToast(`Failed to post feel: ${err.message}`, 'warning');
   }
@@ -2595,7 +2673,7 @@ function setupThemeCustomizer() {
       const palette = getPaletteFromInputs();
       applyThemePalette(palette, true);
       themeModal.close();
-      showToast('🎨 Custom Theme & Palette saved!', 'info');
+      showToast('Custom Theme & Palette saved!', 'info');
     };
   }
 
@@ -2775,7 +2853,7 @@ function renderSapphireMatrix() {
       const day = 18 + i;
       cell.title = `${r.label} - Day ${day}: ${lvl.toUpperCase()} Engagement`;
       cell.onclick = () => {
-        showToast(`📊 ${r.label} - Day ${day}: ${lvl === 'best' ? '98% Top' : lvl === 'high' ? '76% High' : lvl === 'med' ? '45% Medium' : '18% Low'} Attendance Engagement`, 'info', 2000);
+        showToast(`${r.label} - Day ${day}: ${lvl === 'best' ? '98% Top' : lvl === 'high' ? '76% High' : lvl === 'med' ? '45% Medium' : '18% Low'} Attendance Engagement`, 'info', 2000);
       };
       rowEl.appendChild(cell);
     });
@@ -2826,7 +2904,7 @@ function setupSapphireInteractivity() {
       userProfile.karmaPoints += 500;
       updateKarmaDisplay();
       triggerConfetti();
-      showToast('🎉 Upgraded to Campus Pro! +500 Karma Points added!', 'success');
+      showToast('Upgraded to Campus Pro! +500 Karma Points added!', 'success');
     };
   }
 
@@ -2851,7 +2929,7 @@ function setupSapphireInteractivity() {
   if (sapphireReloadBtn) {
     sapphireReloadBtn.onclick = () => {
       renderSapphireMatrix();
-      showToast('🔄 Engagement heatmap synced with university database', 'info', 2000);
+      showToast('Engagement heatmap synced with university database', 'info', 2000);
     };
   }
 
@@ -2950,34 +3028,8 @@ function initIntellyControls() {
     });
   }
 
-  // Minimized Floating Assistant FAB & Popover
-  const fabBtn = document.getElementById('intellyAssistantFab');
-  const bubble = document.getElementById('intellyAssistantBubble');
-  const closeAssistantBtn = document.getElementById('closeIntellyAssistantBtn');
-
-  if (fabBtn && bubble) {
-    fabBtn.onclick = (e) => {
-      e.stopPropagation();
-      const isClosed = bubble.style.display === 'none' || !bubble.style.display;
-      bubble.style.display = isClosed ? 'flex' : 'none';
-      if (isClosed) {
-        showToast('🌸 Intelly Assistant ready to help!', 'info', 1600);
-      }
-    };
-  }
-
-  if (closeAssistantBtn && bubble) {
-    closeAssistantBtn.onclick = (e) => {
-      e.stopPropagation();
-      bubble.style.display = 'none';
-    };
-  }
-
-  document.addEventListener('click', (e) => {
-    if (bubble && bubble.style.display === 'flex' && !e.target.closest('#intellyAssistantWidget')) {
-      bubble.style.display = 'none';
-    }
-  });
+  // Assistant widget replaced by post-notice-fab-btn
+  // No floating assistant to wire up
 
   const assistantCtaBtn = document.getElementById('intellyAssistantCtaBtn');
   if (assistantCtaBtn) {
@@ -3027,7 +3079,7 @@ function setupPhonePreviewModal() {
   if (copyBtn && input) {
     copyBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(input.value)
-        .then(() => showToast('📋 Network URL copied to clipboard!', 'success'))
+        .then(() => showToast('Network URL copied to clipboard!', 'success'))
         .catch(() => {
           input.select();
           showToast('URL selected for copying', 'info');
@@ -3045,7 +3097,7 @@ let slateActiveTab = 'spotlight';
 
 export function stripEmojis(str) {
   if (!str || typeof str !== 'string') return '';
-  return str.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]|🪙|🔒|🌐|🎨|🤖|🏛️|🚀|⚡|🌸|🎛️|🔴|🎓|📱|💬|👑|🎉/g, '').trim();
+  return str.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]|[\u{1F300}-\u{1FAFF}]/gu, '').trim();
 }
 
 export function switchSlateTab(tabName) {
@@ -3769,7 +3821,7 @@ function renderUserSwitcherMenu(users) {
       setActiveUserId(selectedId);
       document.getElementById('userSwitchMenu').style.display = 'none';
       const selectedUser = users.find(u => u.id === selectedId);
-      showToast(`👤 Active identity switched to: ${selectedUser ? selectedUser.name : selectedId}`, 'info', 2500);
+      showToast(`Active identity switched to: ${selectedUser ? selectedUser.name : selectedId}`, 'info', 2500);
       await loadAllBackendData();
     };
   });
@@ -3785,7 +3837,7 @@ function handleRealtimeEvent(event) {
         announcements.unshift(event.announcement);
         renderAnnouncements();
         renderCategoryBar();
-        showToast(`📢 New: ${event.announcement.title.substring(0, 30)}...`, 'info');
+        showToast(`New: ${event.announcement.title.substring(0, 30)}...`, 'info');
       }
       break;
     }
@@ -3808,7 +3860,7 @@ function handleRealtimeEvent(event) {
       if (!exists) {
         reels.unshift(event.reel);
         renderFeelsFeed();
-        showToast(`🎬 New Campus Gig Reel: ${event.reel.title.substring(0, 30)}...`, 'info');
+        showToast(`New Campus Gig Reel: ${event.reel.title.substring(0, 30)}...`, 'info');
       }
       break;
     }
@@ -3816,7 +3868,7 @@ function handleRealtimeEvent(event) {
       const isMyNotice = event.organizerId === getActiveUserId();
       if (isMyNotice) {
         triggerConfetti();
-        showToast(`👥 New applicant for "${event.application.itemTitle}": ${event.application.applicantName}!`, 'success', 5000);
+        showToast(`New applicant for "${event.application.itemTitle}": ${event.application.applicantName}!`, 'success', 5000);
       }
       apiGetApplications('mine').then(apps => {
         applications = apps;
@@ -3829,10 +3881,10 @@ function handleRealtimeEvent(event) {
       if (isMyApplication) {
         if (event.application.status === 'accepted') {
           triggerConfetti();
-          showToast(`🎉 Your application for "${event.application.itemTitle}" was ACCEPTED!`, 'success', 6000);
+          showToast(`Your application for "${event.application.itemTitle}" was ACCEPTED!`, 'success', 6000);
         } else if (event.application.status === 'completed') {
           triggerConfetti();
-          showToast(`🪙 +${event.karmaAwarded} Karma Points awarded for completing "${event.application.itemTitle}"!`, 'success', 6000);
+          showToast(`+${event.karmaAwarded} Karma Points awarded for completing "${event.application.itemTitle}"!`, 'success', 6000);
         }
       }
       loadAllBackendData();
@@ -3851,7 +3903,7 @@ function handleRealtimeEvent(event) {
         if (state.activeConversationId === event.conversationId) {
           renderActiveChat();
         } else {
-          showToast(`💬 ${event.message.senderName}: "${event.message.text.substring(0, 25)}..."`, 'info');
+          showToast(`${event.message.senderName}: "${event.message.text.substring(0, 25)}..."`, 'info');
         }
         renderConversationsList();
       } else {

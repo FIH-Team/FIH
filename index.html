@@ -53,7 +53,7 @@
               <span class="tab-badge" id="messagingUnreadBadge">3</span>
             </button>
             <button class="primary-tab-btn" data-tab="reels" id="tabReelsBtn">
-              <span>Marketing (Feels)</span>
+              <span>Feels</span>
               <span class="tab-badge live-badge">Live</span>
             </button>
           </nav>
@@ -63,7 +63,7 @@
             <div class="utility-cluster" aria-label="Utilities">
               <!-- Karma Points Wallet Display -->
               <div class="karma-wallet-badge" title="Your Karma Points balance">
-                <span class="karma-coin">🪙</span>
+                <span class="karma-coin"><i data-lucide="coins" class="lucide-icon-xs"></i></span>
                 <span class="karma-amount" id="userKarmaBalance">1,250</span>
                 <span class="karma-unit">KP</span>
               </div>
@@ -136,13 +136,8 @@
       <main id="announcementsView" class="main-view active">
         <div class="view-content-wrapper">
           
-          <!-- Section Header with Filters -->
-          <div class="section-title-row">
-            <button class="btn-post-pill" id="openCreateModalBtn">
-              <i data-lucide="plus" class="lucide-icon-sm"></i>
-              <span>Post Notice / Vacancy</span>
-            </button>
-          </div>
+          <!-- Section Header (Post notice moved to primary floating action button) -->
+          <div class="section-title-row" style="display: none;"></div>
 
           <!-- Sapphire UI Bento Telemetry Stats (Shown in Sapphire UI mode) -->
           <div class="sapphire-stats-banner" id="sapphireStatsBanner">
@@ -276,17 +271,17 @@
 
               <div class="intelly-bars-compact-grid">
                 <div class="intelly-bar-item">
-                  <div class="bar-info"><span class="bar-icon icon-honey">⚡</span><span>Project & Hackathons</span></div>
+                  <div class="bar-info"><span class="bar-icon icon-honey"><i data-lucide="zap" class="lucide-icon-xs"></i></span><span>Project & Hackathons</span></div>
                   <div class="bar-track"><div class="bar-fill fill-honey" style="width: 92%;"></div></div>
                   <span class="bar-score" id="telemetryScoreHackathons">9.2</span>
                 </div>
                 <div class="intelly-bar-item">
-                  <div class="bar-info"><span class="bar-icon icon-lilac">🏛️</span><span>Guilds & Societies</span></div>
+                  <div class="bar-info"><span class="bar-icon icon-lilac"><i data-lucide="landmark" class="lucide-icon-xs"></i></span><span>Guilds & Societies</span></div>
                   <div class="bar-track"><div class="bar-fill fill-lilac" style="width: 88%;"></div></div>
                   <span class="bar-score" id="telemetryScoreGuilds">8.8</span>
                 </div>
                 <div class="intelly-bar-item">
-                  <div class="bar-info"><span class="bar-icon icon-sky">🤖</span><span>Lab & Code Bounties</span></div>
+                  <div class="bar-info"><span class="bar-icon icon-sky"><i data-lucide="bot" class="lucide-icon-xs"></i></span><span>Lab & Code Bounties</span></div>
                   <div class="bar-track"><div class="bar-fill fill-sky" style="width: 95%;"></div></div>
                   <span class="bar-score" id="telemetryScoreBounties">9.5</span>
                 </div>
@@ -734,14 +729,14 @@
           </div>
 
           <!-- Announcements Controls Bar: Category Chips + Search + Toggles -->
-          <div class="announcements-controls-bar">
-            <!-- Category Filter Chips -->
+          <div class="announcements-controls-bar" id="announcementsControlsBar">
+            <!-- Category Filter Chips (Collapsible into circular vector icon) -->
             <div class="category-filter-bar" id="categoryFilterBar">
               <!-- Rendered dynamically by JS with count badges -->
             </div>
 
-            <!-- Top-Left Quick Filters & Instant Search -->
-            <div class="announcements-quick-tools">
+            <!-- Top-Left Quick Filters, Instant Search & Category Circular Toggle -->
+            <div class="announcements-quick-tools" id="announcementsQuickTools">
               <div class="search-box-wrapper announcement-search-box">
                 <i data-lucide="search" class="search-icon-lucide"></i>
                 <input type="text" id="announcementSearchInput" class="search-input" placeholder="Search notices, clubs..." />
@@ -765,6 +760,15 @@
               <button class="quick-filter-btn" id="resetFiltersBtn" title="Reset all active filters" style="display: none;">
                 <i data-lucide="rotate-ccw" class="lucide-icon-sm"></i>
                 <span>Clear</span>
+              </button>
+
+              <!-- Circular Vector Icon Toggle for Category Tags (Matching User Sketch) -->
+              <button class="category-toggle-btn" id="categoryToggleBtn" title="Toggle category tags" aria-label="Toggle category tags" aria-expanded="false">
+                <svg class="category-toggle-svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"/>
+                  <line x1="12" y1="3" x2="12" y2="21"/>
+                  <line x1="3" y1="12" x2="21" y2="12"/>
+                </svg>
               </button>
             </div>
           </div>
@@ -1081,9 +1085,9 @@
               <div class="portfolio-carousel-section">
                 <div class="stat-label" style="margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;">Verified Deliverables</div>
                 <div class="projects-list-row" id="drawerPortfolioRow">
-                  <div class="project-item-pill">🚀 Campus Hackathon Portal v2.4</div>
-                  <div class="project-item-pill">⚡ E-Cell Founder Directory</div>
-                  <div class="project-item-pill">🛠️ Soundstage Mix Console UI</div>
+                  <div class="project-item-pill"><i data-lucide="rocket" class="lucide-icon-xs"></i> Campus Hackathon Portal v2.4</div>
+                  <div class="project-item-pill"><i data-lucide="zap" class="lucide-icon-xs"></i> E-Cell Founder Directory</div>
+                  <div class="project-item-pill"><i data-lucide="wrench" class="lucide-icon-xs"></i> Soundstage Mix Console UI</div>
                 </div>
               </div>
 
@@ -1180,7 +1184,7 @@
                 <h4 style="font-size: 0.95rem; font-weight: 700; margin: 0;">Applications Applied</h4>
                 <small style="color: var(--text-secondary); font-size: 0.74rem;">Live tracking from local database</small>
               </div>
-              <span class="db-synced-pill">📁 Local DB</span>
+              <span class="db-synced-pill"><i data-lucide="database" class="lucide-icon-xs"></i> Local DB</span>
             </div>
             <div class="drawer-applications-list" id="drawerApplicationsList">
               <!-- Rendered dynamically -->
@@ -1195,7 +1199,7 @@
       <div class="modal-dialog-content">
         <header class="modal-header">
           <div class="modal-header-title">
-            <span>✏️ Edit Scholar Profile</span>
+            <span><i data-lucide="edit-3" class="lucide-icon-sm"></i> Edit Scholar Profile</span>
           </div>
           <button class="btn-close-modal" id="closeEditProfileModalBtn" aria-label="Close dialog">✕</button>
         </header>
@@ -1271,11 +1275,11 @@
         <footer class="modal-footer">
           <div style="display: flex; gap: 0.5rem;">
             <button id="modalBookmarkBtn" class="btn-icon" title="Bookmark">★</button>
-            <button id="modalShareBtn" class="btn-icon" title="Share">🔗</button>
+            <button id="modalShareBtn" class="btn-icon" title="Share"><i data-lucide="share-2" class="lucide-icon-xs"></i></button>
           </div>
           <div style="display: flex; gap: 0.75rem;">
             <button id="modalMessageOrganizerBtn" class="btn-rsvp-toggle">
-              <span>💬 Message Lead</span>
+              <span><i data-lucide="message-square" class="lucide-icon-xs"></i> Message Lead</span>
             </button>
             <button id="modalRsvpBtn" class="btn-primary">
               <span>Register / Apply</span>
@@ -1290,7 +1294,7 @@
       <div class="modal-dialog-content">
         <header class="modal-header">
           <div class="modal-header-title">
-            <span>📢 Post Notice or Vacancy</span>
+            <span><i data-lucide="megaphone" class="lucide-icon-sm"></i> Post Notice or Vacancy</span>
           </div>
           <button class="btn-close-modal" id="closeCreateModalBtn">✕</button>
         </header>
@@ -1305,11 +1309,11 @@
             <div class="form-group">
               <label class="form-label" for="formCategory">Category *</label>
               <select id="formCategory" class="form-select" required>
-                <option value="vacancies">🛠️ Manpower & Club Vacancy (Work / Karma Points)</option>
-                <option value="workshop">⚡ Workshop (Timed Announcement)</option>
-                <option value="club">👥 Club Exclusive (Selective Announcement)</option>
-                <option value="fest">🎉 College Fest (Timed Event)</option>
-                <option value="seminar">🎓 Academic Seminar / Keynote</option>
+                <option value="vacancies">Manpower & Club Vacancy (Work / Karma Points)</option>
+                <option value="workshop">Workshop (Timed Announcement)</option>
+                <option value="club">Club Exclusive (Selective Announcement)</option>
+                <option value="fest">College Fest (Timed Event)</option>
+                <option value="seminar">Academic Seminar / Keynote</option>
               </select>
             </div>
 
@@ -1320,26 +1324,26 @@
 
             <div class="form-group">
               <label class="form-label" for="formCompensation">Compensation / Perks</label>
-              <input type="text" id="formCompensation" class="form-input" placeholder="e.g. 🪙 800 Karma Points + Passes" />
+              <input type="text" id="formCompensation" class="form-input" placeholder="e.g. 800 Karma Points + Passes" />
             </div>
 
             <div class="form-group">
               <label class="form-label" for="formClubName">Publishing Club / Society</label>
               <select id="formClubName" class="form-select">
                 <option value="">General Campus (No specific club)</option>
-                <option value="Design Guild">🎨 Design Guild</option>
-                <option value="Robotics Society">🤖 Robotics Society</option>
-                <option value="Cultural Council">🏛️ Cultural Council</option>
-                <option value="AI & Code Collective">⚡ AI & Code Collective</option>
-                <option value="E-Cell Incubator">🚀 E-Cell Incubator</option>
+                <option value="Design Guild">Design Guild</option>
+                <option value="Robotics Society">Robotics Society</option>
+                <option value="Cultural Council">Cultural Council</option>
+                <option value="AI & Code Collective">AI & Code Collective</option>
+                <option value="E-Cell Incubator">E-Cell Incubator</option>
               </select>
             </div>
 
             <div class="form-group">
               <label class="form-label" for="formVisibility">Audience & Privacy *</label>
               <select id="formVisibility" class="form-select" required>
-                <option value="public">🌐 Public (Visible to all students)</option>
-                <option value="club_only">🔒 Club Only (Private to members of selected club)</option>
+                <option value="public">Public (Visible to all students)</option>
+                <option value="club_only">Club Only (Private to members of selected club)</option>
               </select>
             </div>
 
@@ -1367,7 +1371,7 @@
       <div class="modal-dialog-content">
         <header class="modal-header">
           <div class="modal-header-title">
-            <span>🎬 Post a Campus Feel</span>
+            <span><i data-lucide="video" class="lucide-icon-sm"></i> Post a Campus Feel</span>
           </div>
           <button class="btn-close-modal" id="closeCreateReelModalBtn">✕</button>
         </header>
@@ -1418,7 +1422,7 @@
       <div class="modal-dialog-content">
         <header class="modal-header">
           <div class="modal-header-title">
-            <span>⚡ Claim Skill Gig</span>
+            <span><i data-lucide="zap" class="lucide-icon-sm"></i> Claim Skill Gig</span>
           </div>
           <button class="btn-close-modal" id="closeApplyGigModalBtn">✕</button>
         </header>
@@ -1588,7 +1592,7 @@
       <div class="modal-card phone-preview-modal-card">
         <header class="modal-header">
           <div class="modal-title-wrap">
-            <span class="modal-title-icon">📱</span>
+            <span class="modal-title-icon"><i data-lucide="smartphone" class="lucide-icon-sm"></i></span>
             <div>
               <h3 id="phoneModalTitle">Preview on Mobile Phone</h3>
               <p class="modal-subtitle">Live testing on your iPhone or Android device</p>
@@ -1638,34 +1642,10 @@
       </div>
     </dialog>
 
-    <!-- Intelly Assistant Floating Widget (Minimized to icon, expand on click) -->
-    <div class="intelly-assistant-widget" id="intellyAssistantWidget">
-      <!-- Minimized Floating Action Button -->
-      <button class="assistant-fab-btn" id="intellyAssistantFab" title="Open Intelly Assistant" aria-label="Open Intelly Assistant">
-        <span class="assistant-fab-icon">🌸</span>
-        <span class="assistant-fab-ping"></span>
-      </button>
-
-      <!-- Expandable Assistant Bubble Card -->
-      <div class="assistant-bubble-card" id="intellyAssistantBubble" style="display: none;">
-        <div class="assistant-header">
-          <div class="assistant-title-group">
-            <span class="assistant-icon">🌸</span>
-            <strong>Intelly Assistant</strong>
-          </div>
-          <button class="assistant-close-btn" id="closeIntellyAssistantBtn" title="Minimize to icon">✕</button>
-        </div>
-        <div class="assistant-chat-body">
-          <div class="assistant-msg">
-            <p>Hey, Scholar! 👋 I'm Intelly.</p>
-          </div>
-          <div class="assistant-msg">
-            <p>Found 7 active campus announcements & vacancies matching your skills. Need a quick tour?</p>
-          </div>
-        </div>
-        <button class="assistant-cta-btn" id="intellyAssistantCtaBtn">Show recommendations</button>
-      </div>
-    </div>
+    <!-- Post Notice / Vacancy Floating Action Button (in place of assistant button) -->
+    <button class="post-notice-fab-btn" id="openCreateModalBtn" title="Post Notice / Vacancy" aria-label="Post Notice / Vacancy">
+      <i data-lucide="plus" class="fab-icon"></i>
+    </button>
 
     <!-- Floating Toast Container -->
     <div id="toastContainer" class="toast-container" aria-live="polite"></div>

@@ -12,7 +12,7 @@ export const INITIAL_ANNOUNCEMENTS = [
     liveBadge: "15 Open Slots",
     openPositions: 15,
     claimedPositions: 9,
-    compensation: "🪙 800 Karma Points + Backstage VIP Passes",
+    compensation: "800 Karma Points + Backstage VIP Passes",
     accentColor: "#f59e0b",
     icon: "briefcase",
     organizer: {
@@ -45,7 +45,7 @@ Perks:
   },
   {
     id: "ann-club-priv-1",
-    title: "🔒 Design Guild Core: Figma Token Refactor & Secret Theme Sprint",
+    title: "Design Guild Core: Figma Token Refactor & Secret Theme Sprint",
     category: "club",
     categoryLabel: "Club Exclusive",
     isClubOnly: true,
@@ -53,7 +53,7 @@ Perks:
     accentColor: "#ec4899",
     icon: "lock",
     liveBadge: "Members Only",
-    compensation: "🪙 600 KP Sprint Credit",
+    compensation: "600 KP Sprint Credit",
     organizer: {
       name: "Design Guild Steering Council",
       role: "Design Guild • Core Leads",
@@ -78,7 +78,7 @@ Session Agenda (Studio 4B, Friday 5:30 PM):
   },
   {
     id: "ann-club-priv-2",
-    title: "🔒 Robotics Society: Autonomous Rover Telemetry & Lab Access Passcodes",
+    title: "Robotics Society: Autonomous Rover Telemetry & Lab Access Passcodes",
     category: "club",
     categoryLabel: "Club Exclusive",
     isClubOnly: true,
@@ -110,7 +110,7 @@ Updates:
   },
   {
     id: "ann-club-pub-1",
-    title: "🌐 Robotics Society: All-Campus Drone Racing & RoboWars Open Showcase",
+    title: "Robotics Society: All-Campus Drone Racing & RoboWars Open Showcase",
     category: "club",
     categoryLabel: "Club Public",
     isClubOnly: false,
@@ -118,7 +118,7 @@ Updates:
     accentColor: "#10b981",
     icon: "users",
     liveBadge: "Open To All",
-    compensation: "🪙 350 KP Audience Bounties",
+    compensation: "350 KP Audience Bounties",
     organizer: {
       name: "Robotics Society",
       role: "Official University Society",
@@ -140,7 +140,7 @@ Updates:
   },
   {
     id: "ann-club-priv-3",
-    title: "🔒 AI & Code Collective: GPU Cluster Allocation & Dev Environment Setup",
+    title: "AI & Code Collective: GPU Cluster Allocation & Dev Environment Setup",
     category: "club",
     categoryLabel: "Club Exclusive",
     isClubOnly: true,
@@ -206,10 +206,10 @@ Prerequisites & Requirements:
     category: "vacancies",
     categoryLabel: "Club Vacancy",
     isVacancy: true,
-    liveBadge: "🪙 1,200 KP Bounty",
+    liveBadge: "1,200 KP Bounty",
     openPositions: 3,
     claimedPositions: 1,
-    compensation: "🪙 1,200 Karma Points / ₹4,000 stipend",
+    compensation: "1,200 Karma Points / ₹4,000 stipend",
     accentColor: "#8b5cf6",
     icon: "sparkles",
     organizer: {
@@ -391,19 +391,19 @@ export const INITIAL_CONVERSATIONS = [
         id: "m-4",
         sender: "them",
         text: "Hi there! Thanks for applying to the autonomous navigation division.",
-        timestamp: "Yesterday"
+        timestamp: "04:15 PM"
       },
       {
         id: "m-5",
         sender: "me",
         text: "Hey Aarav, is the take-home challenge focused on ROS 2 Humble or Foxy?",
-        timestamp: "Yesterday"
+        timestamp: "04:20 PM"
       },
       {
         id: "m-6",
         sender: "them",
         text: "We use ROS 2 Humble on Ubuntu 22.04 LTS. Check Lab 02 tomorrow for hardware setup.",
-        timestamp: "Yesterday"
+        timestamp: "04:28 PM"
       }
     ]
   },
@@ -522,11 +522,11 @@ export const INITIAL_REELS = [
 ];
 
 export const AVAILABLE_CLUBS = [
-  { id: "club-design", name: "Design Guild", icon: "🎨", description: "UI/UX, 3D, and Branding", memberCount: 142 },
-  { id: "club-robotics", name: "Robotics Society", icon: "🤖", description: "Hardware, Drones, and IoT Systems", memberCount: 98 },
-  { id: "club-cultural", name: "Cultural Council", icon: "🏛️", description: "Fests, Stagecraft, and Logistics", memberCount: 215 },
-  { id: "club-ai", name: "AI & Code Collective", icon: "⚡", description: "Full-Stack, Agents, and Cloud Systems", memberCount: 180 },
-  { id: "club-ecell", name: "E-Cell Incubator", icon: "🚀", description: "Startups, Founders, and Pitch Sprints", memberCount: 125 }
+  { id: "club-design", name: "Design Guild", icon: "palette", description: "UI/UX, 3D, and Branding", memberCount: 142 },
+  { id: "club-robotics", name: "Robotics Society", icon: "bot", description: "Hardware, Drones, and IoT Systems", memberCount: 98 },
+  { id: "club-cultural", name: "Cultural Council", icon: "landmark", description: "Fests, Stagecraft, and Logistics", memberCount: 215 },
+  { id: "club-ai", name: "AI & Code Collective", icon: "zap", description: "Full-Stack, Agents, and Cloud Systems", memberCount: 180 },
+  { id: "club-ecell", name: "E-Cell Incubator", icon: "rocket", description: "Startups, Founders, and Pitch Sprints", memberCount: 125 }
 ];
 
 export const INITIAL_USER_PROFILE = {

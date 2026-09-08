@@ -101,11 +101,11 @@ export const SEED_USERS = [
 ];
 
 export const SEED_CLUBS = [
-  { id: "club-design", name: "Design Guild", icon: "🎨", description: "UI/UX, 3D, and Branding", members: ["user-aditya"] },
-  { id: "club-robotics", name: "Robotics Society", icon: "🤖", description: "Hardware, Drones, and IoT Systems", members: ["user-aarav"] },
-  { id: "club-cultural", name: "Cultural Council", icon: "🏛️", description: "Fests, Stagecraft, and Logistics", members: ["user-aditya", "user-kavya"] },
-  { id: "club-ai", name: "AI & Code Collective", icon: "⚡", description: "Full-Stack, Agents, and Cloud Systems", members: ["user-aditya", "user-priya"] },
-  { id: "club-ecell", name: "E-Cell Incubator", icon: "🚀", description: "Startups, Founders, and Pitch Sprints", members: ["user-rohan"] }
+  { id: "club-design", name: "Design Guild", icon: "palette", description: "UI/UX, 3D, and Branding", members: ["user-aditya"] },
+  { id: "club-robotics", name: "Robotics Society", icon: "bot", description: "Hardware, Drones, and IoT Systems", members: ["user-aarav"] },
+  { id: "club-cultural", name: "Cultural Council", icon: "landmark", description: "Fests, Stagecraft, and Logistics", members: ["user-aditya", "user-kavya"] },
+  { id: "club-ai", name: "AI & Code Collective", icon: "zap", description: "Full-Stack, Agents, and Cloud Systems", members: ["user-aditya", "user-priya"] },
+  { id: "club-ecell", name: "E-Cell Incubator", icon: "rocket", description: "Startups, Founders, and Pitch Sprints", members: ["user-rohan"] }
 ];
 
 export const SEED_ANNOUNCEMENTS = [
@@ -121,7 +121,7 @@ export const SEED_ANNOUNCEMENTS = [
     openPositions: 15,
     claimedPositions: 9,
     bountyKarma: 800,
-    compensation: "🪙 800 Karma Points + Backstage VIP Passes",
+    compensation: "800 Karma Points + Backstage VIP Passes",
     accentColor: "#f59e0b",
     icon: "briefcase",
     organizer: {
@@ -154,7 +154,7 @@ Perks:
   {
     id: "ann-club-priv-1",
     authorId: "user-aditya",
-    title: "🔒 Design Guild Core: Figma Token Refactor & Secret Theme Sprint",
+    title: "Design Guild Core: Figma Token Refactor & Secret Theme Sprint",
     category: "club",
     categoryLabel: "Club Exclusive",
     isClubOnly: true,
@@ -163,7 +163,7 @@ Perks:
     icon: "lock",
     liveBadge: "Members Only",
     bountyKarma: 600,
-    compensation: "🪙 600 KP Sprint Credit",
+    compensation: "600 KP Sprint Credit",
     organizer: {
       id: "user-aditya",
       name: "Design Guild Steering Council",
@@ -188,7 +188,7 @@ Session Agenda (Studio 4B, Friday 5:30 PM):
   {
     id: "ann-club-priv-2",
     authorId: "user-aarav",
-    title: "🔒 Robotics Society: Autonomous Rover Telemetry & Lab Access Passcodes",
+    title: "Robotics Society: Autonomous Rover Telemetry & Lab Access Passcodes",
     category: "club",
     categoryLabel: "Club Exclusive",
     isClubOnly: true,
@@ -221,7 +221,7 @@ Updates:
   {
     id: "ann-club-pub-1",
     authorId: "user-aarav",
-    title: "🌐 Robotics Society: All-Campus Drone Racing & RoboWars Open Showcase",
+    title: "Robotics Society: All-Campus Drone Racing & RoboWars Open Showcase",
     category: "club",
     categoryLabel: "Club Public",
     isClubOnly: false,
@@ -230,7 +230,7 @@ Updates:
     icon: "users",
     liveBadge: "Open To All",
     bountyKarma: 350,
-    compensation: "🪙 350 KP Audience Bounties",
+    compensation: "350 KP Audience Bounties",
     organizer: {
       id: "user-aarav",
       name: "Robotics Society",
@@ -256,11 +256,11 @@ Updates:
     category: "vacancies",
     categoryLabel: "Club Vacancy",
     isVacancy: true,
-    liveBadge: "🪙 1,200 KP Bounty",
+    liveBadge: "1,200 KP Bounty",
     openPositions: 3,
     claimedPositions: 1,
     bountyKarma: 1200,
-    compensation: "🪙 1,200 Karma Points / ₹4,000 stipend",
+    compensation: "1,200 Karma Points / ₹4,000 stipend",
     accentColor: "#8b5cf6",
     icon: "sparkles",
     organizer: {
@@ -293,7 +293,7 @@ Role Responsibilities:
     liveBadge: "Starts in 18h",
     deadline: new Date(Date.now() + 1000 * 60 * 60 * 18 + 1000 * 60 * 30).toISOString(),
     bountyKarma: 400,
-    compensation: "🪙 400 KP + Certificate",
+    compensation: "400 KP + Certificate",
     accentColor: "#06b6d4",
     icon: "zap",
     organizer: {
@@ -430,21 +430,21 @@ export const SEED_CONVERSATIONS = [
         senderId: "user-aarav",
         senderName: "Aarav Sharma",
         text: "Hi Aditya! Thanks for your interest in the autonomous navigation division.",
-        timestamp: "Yesterday"
+        timestamp: "04:15 PM"
       },
       {
         id: "m-5",
         senderId: "user-aditya",
         senderName: "Aditya Verma",
         text: "Hey Aarav, is the take-home challenge focused on ROS 2 Humble or Foxy?",
-        timestamp: "Yesterday"
+        timestamp: "04:20 PM"
       },
       {
         id: "m-6",
         senderId: "user-aarav",
         senderName: "Aarav Sharma",
         text: "We use ROS 2 Humble on Ubuntu 22.04 LTS. Check Lab 02 tomorrow for hardware setup.",
-        timestamp: "Yesterday"
+        timestamp: "04:28 PM"
       }
     ]
   }
