@@ -1,0 +1,21 @@
+{
+  "name": "fih-campus-karma",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "qrcode": "^1.5.4",
+    "vite": "^6.0.0"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "lucide": "^1.39.0",
+    "ws": "^8.21.3"
+  }
+}

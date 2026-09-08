@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-ui-style="intelly">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Karma | Modern Student Ecosystem</title>
+    <meta name="description" content="Campus Karma - Unified college infrastructure. Announcements & vacancies, direct messaging, and short-form marketing reels for student skills." />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Ambient Background Lighting -->
+    <div class="ambient-glow-mesh" aria-hidden="true">
+      <div class="glow-orb-1"></div>
+      <div class="glow-orb-2"></div>
+    </div>
+
+    <!-- Crimson Glass Dynamic Multi-Tab Background Canvas -->
+    <div class="crimson-bg-stage" id="crimsonBgStage" aria-hidden="true">
+      <div class="crimson-bg-slide slide-announcements active" id="crimsonSlideAnnouncements"></div>
+      <div class="crimson-bg-slide slide-messaging" id="crimsonSlideMessaging"></div>
+      <div class="crimson-bg-slide slide-feels" id="crimsonSlideFeels"></div>
+    </div>
+
+    <div class="app-container">
+      <!-- Top Sticky Navigation Bar -->
+      <header class="app-header">
+        <div class="header-inner">
+          <!-- Star Prism Logo & Brand Name -->
+          <a href="#" class="brand-section" id="brandLogo">
+            <div class="brand-mark" aria-hidden="true">CK</div>
+            <div class="brand-meta">
+              <span class="brand-title">Campus Karma</span>
+            </div>
+          </a>
+
+          <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Open navigation" aria-expanded="false">
+            <i data-lucide="menu" class="lucide-icon"></i>
+          </button>
+
+          <!-- Three Primary Tabs (Firmly on Top as requested) -->
+          <nav class="primary-three-tabs" aria-label="Main Navigation">
+            <button class="primary-tab-btn active" data-tab="announcements" id="tabAnnouncementsBtn">
+              <span>Announcements</span>
+            </button>
+            <button class="primary-tab-btn" data-tab="messaging" id="tabMessagingBtn">
+              <span>Messaging</span>
+              <span class="tab-badge" id="messagingUnreadBadge">3</span>
+            </button>
+            <button class="primary-tab-btn" data-tab="reels" id="tabReelsBtn">
+              <span>Marketing (Feels)</span>
+              <span class="tab-badge live-badge">Live</span>
+            </button>
+          </nav>
+
+          <!-- Header Right Action Tools -->
+          <div class="header-actions">
+            <div class="utility-cluster" aria-label="Utilities">
+              <!-- Karma Points Wallet Display -->
+              <div class="karma-wallet-badge" title="Your Karma Points balance">
+                <span class="karma-coin">🪙</span>
+                <span class="karma-amount" id="userKarmaBalance">1,250</span>
+                <span class="karma-unit">KP</span>
+              </div>
+
+              <!-- Notifications Bell -->
+              <button class="btn-icon" id="headerNotificationsBtn" title="Notifications">
+                <svg class="utility-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span class="notification-indicator"></span>
+              </button>
+
+              <!-- Phone Preview Modal Button -->
+              <button id="openPhonePreviewBtn" class="btn-icon" aria-label="Preview on Mobile Phone" title="Preview on Mobile Phone (QR Code & Wi-Fi URL)">
+                <svg class="utility-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="5" y="2" width="14" height="20" rx="2"></rect>
+                  <path d="M12 18h.01"></path>
+                </svg>
+              </button>
+
+              <!-- Theme Toggle -->
+              <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme" title="Toggle Light / Dark Mode">
+                <svg id="themeIcon" class="utility-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4"></circle>
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Unified profile and role menu -->
+            <div class="user-switch-wrapper" id="userSwitchWrapper">
+              <button class="profile-control" id="openUserSwitchBtn" title="Open Aditya's profile" aria-label="Open profile for Aditya" aria-haspopup="dialog" aria-controls="profileDrawer" data-profile-id="user-aditya">
+                <span class="profile-avatar" id="headerProfileAvatar">AV</span>
+                <span class="profile-identity">
+                  <span class="profile-name" id="headerUserIdentityLabel">Aditya</span>
+                  <span class="profile-role">Student</span>
+                </span>
+                <i data-lucide="chevron-down" class="profile-chevron"></i>
+              </button>
+              <div class="user-switch-menu" id="userSwitchMenu" role="menu">
+                <button class="profile-menu-item" id="openProfileDrawerBtn" type="button" role="menuitem">
+                  <i data-lucide="user" class="lucide-icon-sm"></i>
+                  <span>Profile</span>
+                </button>
+                <button class="profile-menu-item" id="profileSettingsBtn" type="button" role="menuitem">
+                  <i data-lucide="settings" class="lucide-icon-sm"></i>
+                  <span>Settings</span>
+                </button>
+                <div class="profile-menu-divider"></div>
+                <div class="profile-menu-label">Switch role</div>
+                <div id="userSwitchList">
+                  <!-- Populated dynamically -->
+                </div>
+                <button class="profile-menu-item profile-menu-danger" id="profileSignOutBtn" type="button" role="menuitem">
+                  <i data-lucide="log-out" class="lucide-icon-sm"></i>
+                  <span>Sign out</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Intelly sidebar removed to recenter window and use top navigation -->
+
+      <!-- ====================================================================
+           VIEW 1: ANNOUNCEMENTS & CLUB VACANCIES
+           ==================================================================== -->
+      <main id="announcementsView" class="main-view active">
+        <div class="view-content-wrapper">
+          
+          <!-- Section Header with Filters -->
+          <div class="section-title-row">
+            <div class="live-pulse-badge">
+              <span class="live-dot-pulse"></span>
+              <span class="section-title-tag">Campus <strong>Announcements & Vacancies</strong></span>
+            </div>
+            
+            <button class="btn-post-pill" id="openCreateModalBtn">
+              <i data-lucide="plus" class="lucide-icon-sm"></i>
+              <span>Post Notice / Vacancy</span>
+            </button>
+          </div>
+
+          <!-- Sapphire UI Bento Telemetry Stats (Shown in Sapphire UI mode) -->
+          <div class="sapphire-stats-banner" id="sapphireStatsBanner">
+            <div class="sapphire-metric-card">
+              <div class="sapphire-metric-top">
+                <div class="sapphire-metric-title-block">
+                  <span class="sapphire-icon-circle"><i data-lucide="bell" class="lucide-icon-sm"></i></span>
+                  <span class="sapphire-metric-name">Campus Feeds</span>
+                </div>
+                <span class="sapphire-pill-btn-sm" id="sapphireLiveStatusBadge">Live</span>
+              </div>
+              <div class="sapphire-metric-num" id="sapphireTotalNoticesCount">7</div>
+              <div class="sapphire-metric-delta delta-positive">+38.12% from previous weeks</div>
+            </div>
+
+            <div class="sapphire-metric-card">
+              <div class="sapphire-metric-top">
+                <div class="sapphire-metric-title-block">
+                  <span class="sapphire-icon-circle"><i data-lucide="briefcase" class="lucide-icon-sm"></i></span>
+                  <span class="sapphire-metric-name">Open Slots</span>
+                </div>
+                <span class="sapphire-pill-btn-sm">Vacancies</span>
+              </div>
+              <div class="sapphire-metric-num" id="sapphireOpenSlotsCount">24</div>
+              <div class="sapphire-metric-delta delta-positive">+17.8% available positions</div>
+            </div>
+
+            <div class="sapphire-metric-card">
+              <div class="sapphire-metric-top">
+                <div class="sapphire-metric-title-block">
+                  <span class="sapphire-icon-circle"><i data-lucide="zap" class="lucide-icon-sm"></i></span>
+                  <span class="sapphire-metric-name">Bounty Pool</span>
+                </div>
+                <span class="sapphire-pill-btn-sm">Reward</span>
+              </div>
+              <div class="sapphire-metric-num" id="sapphireBountyPool">3.8k <span style="font-size: 1rem; font-weight: 600;">KP</span></div>
+              <div class="sapphire-metric-delta delta-positive">+28.3% total bounties</div>
+            </div>
+
+            <div class="sapphire-metric-card">
+              <div class="sapphire-metric-top">
+                <div class="sapphire-metric-title-block">
+                  <span class="sapphire-icon-circle"><i data-lucide="users" class="lucide-icon-sm"></i></span>
+                  <span class="sapphire-metric-name">Active Clubs</span>
+                </div>
+                <span class="sapphire-pill-btn-sm">Online</span>
+              </div>
+              <div class="sapphire-metric-num">6</div>
+              <div class="sapphire-metric-delta delta-positive">Verified societies</div>
+            </div>
+          </div>
+
+          <!-- Crimson Glass Neo-Noir Agency Hero Banner (Shown in Crimson mode) -->
+          <div class="crimson-hero-banner" id="crimsonHeroBanner">
+            <div class="crimson-hero-backdrop"></div>
+            <div class="crimson-hero-glass-content">
+              <div class="crimson-index-row">
+                <span class="crimson-tag-pill">/ 01 • NEO-NOIR COLLECTIVE</span>
+                <span class="crimson-live-indicator"><span class="crimson-live-dot"></span> LIVE DISPATCH</span>
+              </div>
+              
+              <div class="crimson-hero-headline-block">
+                <h2 class="crimson-headline">
+                  <span class="crimson-highlight">CREAT</span> AGENCY
+                </h2>
+                <p class="crimson-tagline">IDEAS CONTROL THE WORLD — CAMPUS VACANCIES & CREATIVE BOUNTIES</p>
+              </div>
+
+              <!-- 4 Telemetry Blocks matching user picture -->
+              <div class="crimson-telemetry-grid">
+                <div class="crimson-telemetry-box">
+                  <span class="telemetry-idx">/ 01</span>
+                  <span class="telemetry-val">500+</span>
+                  <span class="telemetry-lbl">Bounties Claimed</span>
+                </div>
+                <div class="crimson-telemetry-box">
+                  <span class="telemetry-idx">/ 02</span>
+                  <span class="telemetry-val">6+</span>
+                  <span class="telemetry-lbl">Creative Guilds</span>
+                </div>
+                <div class="crimson-telemetry-box">
+                  <span class="telemetry-idx">/ 03</span>
+                  <span class="telemetry-val">99%</span>
+                  <span class="telemetry-lbl">Placement Rate</span>
+                </div>
+                <div class="crimson-telemetry-box">
+                  <span class="telemetry-idx">/ 04</span>
+                  <span class="telemetry-val" id="crimsonActiveCount">64</span>
+                  <span class="telemetry-lbl">Active Notices</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Intelly Studio Campus Karma Scholar Telemetry Bento Header (2-Column Streamlined Layout) -->
+          <div class="intelly-bento-header" id="intellyBentoHeader">
+            <!-- Left Column: Aditya Verma Profile Pane -->
+            <div class="intelly-dossier-card">
+              <div class="intelly-dossier-profile">
+                <div class="intelly-avatar-wrap">
+                  <div class="intelly-avatar-ring" id="intellyAvatarRing">AV</div>
+                </div>
+                <div class="intelly-dossier-meta">
+                  <h3 class="intelly-dossier-name" id="intellyDossierName">Aditya Verma</h3>
+                  <p class="intelly-dossier-code" id="intellyDossierCode">2023-CS-042 • Computer Science & Design</p>
+                </div>
+              </div>
+
+              <!-- Campus Stats Box -->
+              <div class="intelly-olive-box">
+                <div class="olive-box-header">
+                  <span id="intellyStudentRegCode">ST-2023-042</span>
+                  <span>Semester 5 • Junior</span>
+                </div>
+                <div class="olive-data-row"><span>Standing:</span> <strong>Dean's Honour List</strong></div>
+                <div class="olive-data-row"><span>Karma Tier:</span> <strong>Level 4 Scholar (Top 5%)</strong></div>
+                <div class="olive-data-row"><span>Applied Gigs:</span> <strong id="intellyActiveAppsCount">0 Active</strong></div>
+                <div class="olive-data-row"><span>Karma Balance:</span> <strong id="intellyDossierKarma">1,250 KP</strong></div>
+              </div>
+
+              <!-- Joined Campus Clubs Section -->
+              <div class="intelly-clubs-section" id="intellyDossierClubsBox">
+                <div class="intelly-mini-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                  <span>Joined Clubs (Private Access):</span>
+                  <button type="button" class="intelly-manage-link" id="dossierManageClubsBtn" title="Manage your clubs in profile">Manage</button>
+                </div>
+                <div class="intelly-pills-list" id="intellyDossierClubs">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+
+              <!-- Campus Focus Chips -->
+              <div class="intelly-chips-row" style="margin-top: 0.5rem;">
+                <span class="intelly-mini-label">Focus Areas:</span>
+                <div class="intelly-pills-list" id="intellyDossierTags">
+                  <span class="intelly-chip chip-pink">UI Systems ⚡</span>
+                  <span class="intelly-chip chip-lilac">AI Agents</span>
+                  <span class="intelly-chip chip-amber">Sound Lead</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Campus Contributions & Weekly Velocity Telemetry -->
+            <div class="intelly-telemetry-panel">
+              <div class="intelly-panel-header">
+                <div>
+                  <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800;">Campus Contributions & Telemetry</h4>
+                  <small style="font-size: 0.72rem; color: #71717a;">Weekly Karma velocity graph & society placements</small>
+                </div>
+                <div class="intelly-telemetry-badges">
+                  <span class="telemetry-pill-badge" id="telemetryActiveCountBadge">5 Contributions</span>
+                  <span class="telemetry-pill-badge badge-karma-gain" id="telemetryWeekGainBadge">+605 KP This Week</span>
+                </div>
+              </div>
+
+              <!-- Reused Meaningful Graph: Weekly Karma Growth Curve -->
+              <div class="intelly-curve-card">
+                <div class="curve-header">
+                  <span>Weekly Karma Points Velocity (Mon – Sun)</span>
+                  <span class="curve-badge" id="telemetryCurveHeaderBadge">+605 KP this week</span>
+                </div>
+                <div class="curve-graph-wrap">
+                  <svg viewBox="0 0 320 54" class="intelly-svg-curve" id="telemetryCurveSvg">
+                    <!-- Dynamic smooth trend line of Karma Points velocity throughout the week -->
+                    <path id="telemetryCurvePath" d="M 0,44 Q 30,40 60,32 T 120,22 T 170,42 T 220,8 T 270,28 T 320,20" fill="none" stroke="#db2777" stroke-width="2.5" stroke-linecap="round" />
+                    <!-- Highlight dot at peak gain -->
+                    <circle id="telemetryCurveDot" cx="220" cy="8" r="4.5" fill="#f472b6" stroke="#18181b" stroke-width="2" />
+                  </svg>
+                </div>
+                <div class="curve-stats-row">
+                  <div><strong id="telemetryPeakGainVal">+180 KP</strong> <small id="telemetryPeakDayLbl">Friday Peak Gain</small></div>
+                  <div><strong id="telemetryWeekTotalVal">605 KP</strong> <small>Total This Week</small></div>
+                  <div><strong id="telemetryRankVal">Top 4%</strong> <small>Campus Rank</small></div>
+                  <div><strong id="intellyDocketBadge">0 Active</strong> <small>Applications</small></div>
+                </div>
+              </div>
+
+              <div class="intelly-bars-compact-grid">
+                <div class="intelly-bar-item">
+                  <div class="bar-info"><span class="bar-icon icon-honey">⚡</span><span>Project & Hackathons</span></div>
+                  <div class="bar-track"><div class="bar-fill fill-honey" style="width: 92%;"></div></div>
+                  <span class="bar-score" id="telemetryScoreHackathons">9.2</span>
+                </div>
+                <div class="intelly-bar-item">
+                  <div class="bar-info"><span class="bar-icon icon-lilac">🏛️</span><span>Guilds & Societies</span></div>
+                  <div class="bar-track"><div class="bar-fill fill-lilac" style="width: 88%;"></div></div>
+                  <span class="bar-score" id="telemetryScoreGuilds">8.8</span>
+                </div>
+                <div class="intelly-bar-item">
+                  <div class="bar-info"><span class="bar-icon icon-sky">🤖</span><span>Lab & Code Bounties</span></div>
+                  <div class="bar-track"><div class="bar-fill fill-sky" style="width: 95%;"></div></div>
+                  <span class="bar-score" id="telemetryScoreBounties">9.5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Layout Selector for Slate Mode (Allows switching back to any layout anytime) -->
+          <div class="slate-floating-switcher">
+            <button class="slate-floating-switch-btn" id="slateFloatingSwitchBtn" title="Switch UI Experience Layout">
+              <i data-lucide="layout" class="lucide-icon-xs"></i>
+              <span id="slateFloatingCurrentLabel">Slate Studio</span>
+              <i data-lucide="chevron-down" class="lucide-icon-xs"></i>
+            </button>
+            <div class="slate-floating-menu" id="slateFloatingMenu">
+              <div class="ui-menu-header" style="padding: 6px 12px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.8px; color: #888888;">Layout Experience</div>
+              <button class="slate-menu-opt-btn active" data-style="slate">
+                <strong>Slate Studio</strong>
+                <small>Monolithic Bento Console</small>
+              </button>
+              <button class="slate-menu-opt-btn" data-style="intelly">
+                <strong>Intelly Studio</strong>
+                <small>Warm Cream Bento & Pastel Light</small>
+              </button>
+              <button class="slate-menu-opt-btn" data-style="crimson">
+                <strong>Crimson Glass</strong>
+                <small>Neo-Noir Cyber Agency</small>
+              </button>
+              <button class="slate-menu-opt-btn" data-style="sapphire">
+                <strong>Sapphire UI</strong>
+                <small>LMS University Bento</small>
+              </button>
+              <button class="slate-menu-opt-btn" data-style="instagram">
+                <strong>Instagram Feed</strong>
+                <small>Scrollable social feed</small>
+              </button>
+            </div>
+          </div>
+
+          <!-- Slate Studio Monolithic Bento Console (Shown in Slate mode) -->
+          <div class="slate-console-tablet" id="slateStudioConsole">
+            <!-- Left Vertical Dock -->
+            <aside class="slate-dock" aria-label="Slate Quick Dock">
+              <button class="slate-dock-btn slate-dock-sparkle" id="slateSparkleBtn" title="AI Campus Spotlight">
+                <i data-lucide="sparkles" class="lucide-icon-sm"></i>
+              </button>
+
+              <!-- Dock Vertical Pill with 5 Tabs (Spotlight, Messaging, Feels, Applications, Analytics) -->
+              <div class="slate-dock-pill">
+                <button class="slate-dock-pill-btn active" data-slate-tab="spotlight" title="Tab 1: Spotlight Dispatches">
+                  <i data-lucide="radio" class="lucide-icon-xs"></i>
+                </button>
+                <button class="slate-dock-pill-btn" data-slate-tab="messaging" title="Tab 2: Transceiver Messaging">
+                  <i data-lucide="message-square" class="lucide-icon-xs"></i>
+                </button>
+                <button class="slate-dock-pill-btn" data-slate-tab="feels" title="Tab 3: Creative Gigs & Bounties">
+                  <i data-lucide="palette" class="lucide-icon-xs"></i>
+                </button>
+                <button class="slate-dock-pill-btn" data-slate-tab="applications" title="Tab 4: Application Vault">
+                  <i data-lucide="briefcase" class="lucide-icon-xs"></i>
+                </button>
+                <button class="slate-dock-pill-btn" data-slate-tab="analytics" title="Tab 5: Telemetry & Metrics">
+                  <i data-lucide="activity" class="lucide-icon-xs"></i>
+                </button>
+              </div>
+
+              <!-- Lower Dock Tools -->
+              <div class="slate-dock-tools">
+                <button class="slate-dock-btn slate-dock-tool" id="slateFilterToggleBtn" title="Switch Layout Style">
+                  <i data-lucide="sliders" class="lucide-icon-xs"></i>
+                </button>
+                <button class="slate-dock-avatar" id="slateDockAvatar" title="Scholar Profile Dashboard">
+                  <span id="slateAvatarInitials">AV</span>
+                </button>
+              </div>
+            </aside>
+
+            <!-- Main Slate Body Workspace -->
+            <div class="slate-console-body">
+              <!-- Center-Left Column: Main L-Shaped Window + Lower Curve Cutout Sub-Panel -->
+              <div class="slate-console-col-main">
+                <!-- Circular Notch Button Nestled on Left Seam -->
+                <button class="slate-notch-btn" id="slateNotchBtn" title="Toggle Live Collegiate Stream">
+                  <i data-lucide="zap" style="width: 13px; height: 13px; color: #1e1e1e;"></i>
+                </button>
+
+                <!-- Upper Main Stage (Top of L-shape) -->
+                <div class="slate-main-stage" id="slateHeroStage">
+                  <!-- Minimalist Silhouette Icon in Center matching wireframe -->
+                  <div class="slate-silhouette-badge">
+                    <svg viewBox="0 0 48 48" class="slate-silhouette-svg" aria-label="Scholar Silhouette">
+                      <circle cx="24" cy="13" r="5" fill="currentColor" />
+                      <path d="M 15 35 C 15 25.5 21.5 22 28.5 22 C 35.5 22 37.5 26 36.5 31.5 C 35.5 35.5 31.5 37 24 37 C 18 37 15 36 15 35 Z" fill="currentColor" />
+                    </svg>
+                  </div>
+
+                  <!-- Tab Switching Content Container -->
+                  <div class="slate-stage-content" id="slateStageContent">
+                    <!-- Tab 1: Spotlight Dispatch -->
+                    <div class="slate-tab-pane active" id="slateTabSpotlight">
+                      <div class="slate-spotlight-status">
+                        <span class="slate-live-pulse"></span>
+                        <span class="slate-live-txt" id="slateSpotlightStatusTxt">LIVE SPOTLIGHT DISPATCH</span>
+                      </div>
+                      <h3 class="slate-spotlight-title" id="slateSpotlightTitle">Wanted: Student UI/UX Lead for Campus Hackathon Portal v2.4</h3>
+                      <div class="slate-spotlight-badges-row">
+                        <span class="slate-chip" id="slateSpotlightAuthorChip">Aditya Verma</span>
+                        <span class="slate-chip" id="slateSpotlightClubChip">Design Guild</span>
+                        <span class="slate-chip slate-chip-highlight" id="slateSpotlightBountyChip">1,200 KP Bounty</span>
+                      </div>
+                      <p class="slate-spotlight-summary" id="slateSpotlightSummary">Collaborate on interactive wireframes, design tokens, and modular components for the upcoming 48-hour collegiate hackathon portal.</p>
+                      <div class="slate-spotlight-actions">
+                        <button class="slate-action-pill slate-action-primary" id="slateSpotlightViewBtn">
+                          <i data-lucide="eye" class="lucide-icon-xs"></i>
+                          <span>Inspect Spotlight</span>
+                        </button>
+                        <button class="slate-action-pill slate-action-outline" id="slateSpotlightApplyBtn">
+                          <i data-lucide="send" class="lucide-icon-xs"></i>
+                          <span>Quick Apply</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Tab 2: Transceiver Messaging -->
+                    <div class="slate-tab-pane" id="slateTabMessaging">
+                      <div class="slate-spotlight-status">
+                        <span class="slate-live-pulse"></span>
+                        <span class="slate-live-txt">CAMPUS TRANSCEIVER LINK</span>
+                      </div>
+                      <div class="slate-chat-partner-bar">
+                        <div class="slate-chat-avatar-mini" id="slateChatPartnerAvatar">SC</div>
+                        <div class="slate-chat-partner-info">
+                          <h3 class="slate-chat-partner-name" id="slateChatPartner">Sarah Chen</h3>
+                          <span class="slate-chat-partner-role" id="slateChatPartnerRole">Robotics Guild Lead • Online Now</span>
+                        </div>
+                      </div>
+                      <div class="slate-chat-preview" id="slateChatStream"></div>
+                      <div class="slate-chat-action-row">
+                        <input type="text" id="slateChatInput" class="slate-chat-input" placeholder="Transmit direct encrypted message..." />
+                        <button class="slate-action-pill slate-action-primary" id="slateChatSendBtn">
+                          <i data-lucide="send" class="lucide-icon-xs"></i>
+                          <span>Send</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Tab 3: Creative Gigs / Feels -->
+                    <div class="slate-tab-pane" id="slateTabFeels">
+                      <div class="slate-spotlight-status">
+                        <span class="slate-live-pulse"></span>
+                        <span class="slate-live-txt">CREATIVE SPRINT GIG</span>
+                      </div>
+                      <h3 class="slate-spotlight-title" id="slateFeelsTitle">Design Sprint: Unified Campus Festival</h3>
+                      <div class="slate-spotlight-badges-row">
+                        <span class="slate-chip" id="slateFeelsClientChip">Design Guild & Arts Council</span>
+                        <span class="slate-chip slate-chip-highlight" id="slateFeelsBountyChip">850 KP + Stipend</span>
+                        <span class="slate-chip">2 Days Left</span>
+                      </div>
+                      <p class="slate-spotlight-summary" id="slateFeelsSummary">Produce modular particle animations, interactive stage projections, and ambient visuals for the main stage showcase.</p>
+                      <div class="slate-spotlight-actions">
+                        <button class="slate-action-pill slate-action-primary" id="slateFeelsApplyBtn">
+                          <i data-lucide="check" class="lucide-icon-xs"></i>
+                          <span>Accept Gig</span>
+                        </button>
+                        <button class="slate-action-pill slate-action-outline" id="slateFeelsNextBtn">
+                          <i data-lucide="skip-forward" class="lucide-icon-xs"></i>
+                          <span>Next Gig</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Tab 4: Application Vault -->
+                    <div class="slate-tab-pane" id="slateTabApplications">
+                      <div class="slate-spotlight-status">
+                        <span class="slate-live-pulse"></span>
+                        <span class="slate-live-txt">APPLICATION VAULT</span>
+                      </div>
+                      <h3 class="slate-spotlight-title" style="margin-bottom: 2px;">Active Submissions & Tracked Opportunities</h3>
+                      <p class="slate-spotlight-meta" style="margin-bottom: 8px;">Collegiate Opportunity Dispatch Status Ledger</p>
+                      <div class="slate-apps-list" id="slateAppsList"></div>
+                    </div>
+
+                    <!-- Tab 5: Telemetry & Metrics -->
+                    <div class="slate-tab-pane" id="slateTabAnalytics">
+                      <div class="slate-spotlight-status">
+                        <span class="slate-live-pulse"></span>
+                        <span class="slate-live-txt">CAMPUS TELEMETRY</span>
+                      </div>
+                      <h3 class="slate-spotlight-title">Scholar Engagement Index</h3>
+                      <p class="slate-spotlight-meta">Top 4% Campus Rank • Verified 1,250 KP • Master Scholar Standing</p>
+                      <div class="slate-analytics-row">
+                        <div class="slate-metric-pill">
+                          <span class="metric-num">98%</span>
+                          <span class="metric-lbl">Attendance</span>
+                          <span class="metric-sub">+2.4% vs Term</span>
+                        </div>
+                        <div class="slate-metric-pill">
+                          <span class="metric-num">9.4 GHz</span>
+                          <span class="metric-lbl">Harmonic Peak</span>
+                          <span class="metric-sub">Optimal Sync</span>
+                        </div>
+                        <div class="slate-metric-pill">
+                          <span class="metric-num">+605</span>
+                          <span class="metric-lbl">Weekly KP</span>
+                          <span class="metric-sub">14-Day Velocity</span>
+                        </div>
+                      </div>
+                      <div class="slate-telemetry-sparkline-box">
+                        <svg viewBox="0 0 320 26" class="slate-sparkline-svg" aria-label="Harmonic Telemetry Activity Wave">
+                          <path d="M 0 18 Q 30 6 60 14 T 120 8 T 180 20 T 240 6 T 300 12 L 320 10" fill="none" stroke="rgba(255, 255, 255, 0.45)" stroke-width="1.8" />
+                          <circle cx="240" cy="6" r="3" fill="#ffffff" />
+                        </svg>
+                        <div class="slate-sparkline-labels">
+                          <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bottom-Left Leg with Prompt Bar (Bottom of L-shape) -->
+                <div class="slate-main-leg" id="slateMainLeg">
+                  <!-- Inverted Concave Corner Fillet connecting top stage and leg with mathematically smooth 36px arc -->
+                  <svg class="slate-concave-cutout" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                    <path d="M 0 0 L 36 0 A 36 36 0 0 0 0 36 Z" fill="#484848" />
+                    <path d="M 36 0 A 36 36 0 0 0 0 36" stroke="rgba(255, 255, 255, 0.14)" stroke-width="1.5" fill="none" />
+                  </svg>
+
+                  <div class="slate-prompt-bar">
+                    <button class="slate-prompt-plus-btn" id="slatePromptPlusBtn" title="Dispatch Notice">
+                      <i data-lucide="plus" class="lucide-icon-xs"></i>
+                    </button>
+                    <input type="text" id="slatePromptInput" class="slate-prompt-input" placeholder="Broadcast notice, filter dispatches..." />
+                    <button class="slate-prompt-exec-btn" id="slatePromptExecBtn" title="Filter / Dispatch">
+                      <i data-lucide="arrow-right" class="lucide-icon-xs"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Bottom-Center Deadlines Sub-Panel nestled in the cutout (with dates in grid form and deadlines calendar) -->
+                <div class="slate-matrix-panel slate-deadlines-panel" id="slateDeadlinesPanel">
+                  <div class="slate-deadlines-split">
+                    <!-- Left: Authentic Calendar Dates in Grid Form -->
+                    <div class="slate-cal-grid-col">
+                      <div class="slate-cal-grid-header">
+                        <div class="slate-cal-month-badge">
+                          <i data-lucide="calendar" class="lucide-icon-xs"></i>
+                          <span>SEP 2026</span>
+                        </div>
+                        <div class="slate-cal-nav-group">
+                          <button class="slate-cal-arrow-btn" id="slateCalPrevBtn" title="Previous Month"><i data-lucide="chevron-left" class="lucide-icon-xs"></i></button>
+                          <button class="slate-cal-arrow-btn" id="slateCalNextBtn" title="Next Month"><i data-lucide="chevron-right" class="lucide-icon-xs"></i></button>
+                        </div>
+                      </div>
+
+                      <div class="slate-cal-grid-weekdays">
+                        <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                      </div>
+
+                      <!-- 7-column dates grid -->
+                      <div class="slate-cal-grid-cells" id="slateCalGridCells">
+                        <span class="slate-grid-cell dim">31</span>
+                        <button class="slate-grid-cell" data-day="1">01</button>
+                        <button class="slate-grid-cell" data-day="2">02</button>
+                        <button class="slate-grid-cell" data-day="3">03</button>
+                        <button class="slate-grid-cell" data-day="4">04</button>
+                        <button class="slate-grid-cell" data-day="5">05</button>
+                        <button class="slate-grid-cell" data-day="6">06</button>
+                        <button class="slate-grid-cell" data-day="7">07</button>
+                        <button class="slate-grid-cell active today" data-day="8" title="Today - 08 Sep">08<span class="slate-cell-dot"></span></button>
+                        <button class="slate-grid-cell" data-day="9">09</button>
+                        <button class="slate-grid-cell" data-day="10">10</button>
+                        <button class="slate-grid-cell has-deadline" data-day="11" title="11 Sep - Autonomous Drone Race Deadline">11<span class="slate-cell-dot"></span></button>
+                        <button class="slate-grid-cell" data-day="12">12</button>
+                        <button class="slate-grid-cell" data-day="13">13</button>
+                        <button class="slate-grid-cell has-deadline" data-day="14" title="14 Sep - Cultural Fest Crew Deadline">14<span class="slate-cell-dot"></span></button>
+                        <button class="slate-grid-cell" data-day="15">15</button>
+                        <button class="slate-grid-cell" data-day="16">16</button>
+                        <button class="slate-grid-cell" data-day="17">17</button>
+                        <button class="slate-grid-cell has-deadline" data-day="18" title="18 Sep - Hackathon Sprint Registration">18<span class="slate-cell-dot"></span></button>
+                        <button class="slate-grid-cell" data-day="19">19</button>
+                        <button class="slate-grid-cell" data-day="20">20</button>
+                        <button class="slate-grid-cell" data-day="21">21</button>
+                        <button class="slate-grid-cell" data-day="22">22</button>
+                        <button class="slate-grid-cell" data-day="23">23</button>
+                        <button class="slate-grid-cell has-deadline" data-day="24" title="24 Sep - Design Review Submission">24<span class="slate-cell-dot"></span></button>
+                        <button class="slate-grid-cell" data-day="25">25</button>
+                        <button class="slate-grid-cell" data-day="26">26</button>
+                        <button class="slate-grid-cell" data-day="27">27</button>
+                        <button class="slate-grid-cell" data-day="28">28</button>
+                        <button class="slate-grid-cell" data-day="29">29</button>
+                        <button class="slate-grid-cell" data-day="30">30</button>
+                        <span class="slate-grid-cell dim">01</span>
+                        <span class="slate-grid-cell dim">02</span>
+                        <span class="slate-grid-cell dim">03</span>
+                        <span class="slate-grid-cell dim">04</span>
+                      </div>
+                    </div>
+
+                    <!-- Right: Deadlines Feed & Scrubber Rail -->
+                    <div class="slate-deadlines-detail-col">
+                      <div class="slate-deadlines-header">
+                        <div class="slate-panel-pill">DEADLINES</div>
+                        <span class="slate-deadlines-count-badge" id="slateDeadlinesCount">3 ACTIVE</span>
+                      </div>
+
+                      <div class="slate-deadlines-list" id="slateDeadlinesList">
+                        <div class="slate-deadline-item active" data-day="8" data-notice-id="announcement-1">
+                          <div class="slate-dl-time">
+                            <strong class="slate-dl-badge">TODAY</strong>
+                            <span class="slate-dl-hour">23:59</span>
+                          </div>
+                          <div class="slate-dl-info">
+                            <strong class="slate-dl-title">Hackathon Portal Applications Close</strong>
+                            <span class="slate-dl-sub">Design Guild • 1,200 KP</span>
+                          </div>
+                        </div>
+                        <div class="slate-deadline-item" data-day="11" data-notice-id="announcement-2">
+                          <div class="slate-dl-time">
+                            <span class="slate-dl-badge slate-dl-badge-sub">11 SEP</span>
+                            <span class="slate-dl-hour">18:00</span>
+                          </div>
+                          <div class="slate-dl-info">
+                            <strong class="slate-dl-title">Autonomous Drone Race Submissions</strong>
+                            <span class="slate-dl-sub">Robotics Guild • 1,500 KP</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Timeline Horizon Scrubber Rail -->
+                      <div class="slate-slider-row">
+                        <div class="slate-slider-meta">
+                          <span class="slate-slider-label">TIMELINE HORIZON</span>
+                          <span class="slate-slider-val" id="slateSliderVal">Next: Today 23:59 (6h left)</span>
+                        </div>
+                        <div class="slate-slider-track" id="slateSliderTrack">
+                          <div class="slate-slider-fill" id="slateSliderFill" style="width: 38%;"></div>
+                          <div class="slate-slider-thumb" id="slateSliderThumb" style="left: 38%;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Sub-section: Cascading Deck + Fanned Credentials -->
+              <div class="slate-console-col-side">
+                <!-- Top Cascading Stack of 3 Cards -->
+                <div class="slate-cascade-panel" id="slateCascadePanel">
+                  <div class="slate-cascade-header">
+                    <div class="slate-panel-pill">DISPATCH STACK</div>
+                    <span class="slate-pill-tag" id="slateStackIndex">1/3</span>
+                  </div>
+
+                  <!-- 3 Overlapping Cascading Cards with Left Edge Notch Tabs -->
+                  <div class="slate-stack-container" id="slateStackContainer">
+                    <div class="slate-stacked-card card-back" id="slateStackCard2">
+                      <div class="slate-card-pill-tab"></div>
+                      <div class="slate-card-inner">
+                        <span class="slate-card-sub" id="slateBackSub">Upcoming Notice</span>
+                        <h4 class="slate-card-title" id="slateBackTitle">Cultural Fest Creative Operations</h4>
+                      </div>
+                    </div>
+
+                    <div class="slate-stacked-card card-mid" id="slateStackCard1">
+                      <div class="slate-card-pill-tab"></div>
+                      <div class="slate-card-inner">
+                        <span class="slate-card-sub" id="slateMidSub">Queued Opportunity</span>
+                        <h4 class="slate-card-title" id="slateMidTitle">Hardware Prototyping Lead</h4>
+                      </div>
+                    </div>
+
+                    <div class="slate-stacked-card card-front" id="slateStackCard0">
+                      <div class="slate-card-pill-tab"></div>
+                      <div class="slate-card-inner">
+                        <div class="slate-card-top">
+                          <span class="slate-tag-accent" id="slateFrontBadge">Club Vacancy</span>
+                          <button class="slate-card-cycle-btn" id="slateCycleStackBtn" title="Next Dispatch in Stack">
+                            <i data-lucide="chevron-right" class="lucide-icon-xs"></i>
+                          </button>
+                        </div>
+                        <h4 class="slate-card-title" id="slateFrontTitle">UI/UX Systems & Interaction Designer</h4>
+                        <p class="slate-card-desc" id="slateFrontSummary">Design Guild core recruitment for unified campus festival design sprint.</p>
+                        <div class="slate-card-footer">
+                          <span class="slate-card-reward" id="slateFrontReward">800 KP + Passes</span>
+                          <button class="slate-mini-btn" id="slateFrontActionBtn">Inspect</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bottom Fanned Panel (Credentials Deck - Contained & Polished) -->
+                <div class="slate-fanned-panel" id="slateFannedPanel">
+                  <div class="slate-fanned-header">
+                    <div class="slate-panel-pill">CREDENTIALS</div>
+                    <span class="slate-fanned-circle-badge" title="4 Verified Campus Credentials">4</span>
+                  </div>
+
+                  <!-- Fanned Hand of Cards (Contained & Polished) -->
+                  <div class="slate-fanned-deck" id="slateFannedDeck">
+                    <div class="slate-fan-card fan-card-1" data-pass-title="Hackathon Grand Finalist" data-pass-desc="Top 3% national rank in Autonomous Systems Hackathon. Staked with 500 KP." title="Hackathon Grand Finalist">
+                      <div class="fan-card-notch"></div>
+                      <div class="fan-card-icon"><i data-lucide="award" class="lucide-icon-sm"></i></div>
+                      <div class="fan-card-content">
+                        <span class="fan-card-title">HACKATHON</span>
+                        <small class="fan-card-sub">Finalist Pass</small>
+                      </div>
+                      <div class="fan-card-seal">VERIFIED</div>
+                    </div>
+
+                    <div class="slate-fan-card fan-card-2" data-pass-title="Design Guild Lead Keycard" data-pass-desc="Full administrative clearance across Design Guild workshops & sprints." title="Design Guild Keycard">
+                      <div class="fan-card-notch"></div>
+                      <div class="fan-card-icon"><i data-lucide="palette" class="lucide-icon-sm"></i></div>
+                      <div class="fan-card-content">
+                        <span class="fan-card-title">DESIGN GUILD</span>
+                        <small class="fan-card-sub">Lead Keycard</small>
+                      </div>
+                      <div class="fan-card-seal">VERIFIED</div>
+                    </div>
+
+                    <div class="slate-fan-card fan-card-3" data-pass-title="Robotics Society Lab Clearance" data-pass-desc="Level 2 hardware fabrication and drone lab access." title="Robotics Lab Clearance">
+                      <div class="fan-card-notch"></div>
+                      <div class="fan-card-icon"><i data-lucide="cpu" class="lucide-icon-sm"></i></div>
+                      <div class="fan-card-content">
+                        <span class="fan-card-title">ROBOTICS</span>
+                        <small class="fan-card-sub">Lab Access</small>
+                      </div>
+                      <div class="fan-card-seal">VERIFIED</div>
+                    </div>
+
+                    <div class="slate-fan-card fan-card-4" data-pass-title="Karma Master Scholar Token" data-pass-desc="Top 4% campus rank • Verified peer testimonials and 1,250 KP." title="Karma Master Scholar">
+                      <div class="fan-card-notch"></div>
+                      <div class="fan-card-icon"><i data-lucide="shield-check" class="lucide-icon-sm"></i></div>
+                      <div class="fan-card-content">
+                        <span class="fan-card-title">MASTER SCHOLAR</span>
+                        <small class="fan-card-sub">1,250 KP</small>
+                      </div>
+                      <div class="fan-card-seal highlight">ON-CHAIN</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Announcements Controls Bar: Category Chips + Search + Toggles -->
+          <div class="announcements-controls-bar">
+            <!-- Category Filter Chips -->
+            <div class="category-filter-bar" id="categoryFilterBar">
+              <!-- Rendered dynamically by JS with count badges -->
+            </div>
+
+            <!-- Top-Left Quick Filters & Instant Search -->
+            <div class="announcements-quick-tools">
+              <div class="search-box-wrapper announcement-search-box">
+                <i data-lucide="search" class="search-icon-lucide"></i>
+                <input type="text" id="announcementSearchInput" class="search-input" placeholder="Search notices, clubs..." />
+              </div>
+
+              <button class="quick-filter-btn" id="filterClubOnlyToggleBtn" title="Filter Private Club-Only Announcements for your joined clubs">
+                <i data-lucide="lock" class="lucide-icon-sm"></i>
+                <span>Club Exclusives</span>
+              </button>
+
+              <button class="quick-filter-btn" id="filterUrgentToggleBtn" title="Filter Urgent notices only">
+                <i data-lucide="flame" class="lucide-icon-sm"></i>
+                <span>Urgent</span>
+              </button>
+
+              <button class="quick-filter-btn" id="filterVacanciesToggleBtn" title="Filter Vacancies with open slots">
+                <i data-lucide="briefcase" class="lucide-icon-sm"></i>
+                <span>Open Slots</span>
+              </button>
+
+              <button class="quick-filter-btn" id="resetFiltersBtn" title="Reset all active filters" style="display: none;">
+                <i data-lucide="rotate-ccw" class="lucide-icon-sm"></i>
+                <span>Clear</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Announcements Grid -->
+          <section id="announcementsGrid" class="announcements-grid" aria-live="polite">
+            <!-- Populated dynamically by main.js with real notices -->
+          </section>
+
+          <!-- Sapphire UI Brand Card (Visible in Sapphire Mode) -->
+          <div class="sapphire-brand-strip" id="sapphireBrandStrip">
+            <div class="sapphire-clover-logo">
+              <span class="clover-petal p1"></span>
+              <span class="clover-petal p2"></span>
+              <span class="clover-petal p3"></span>
+              <span class="clover-petal p4"></span>
+            </div>
+            <div class="sapphire-brand-text">
+              <h4 class="sapphire-brand-title">Sapphire UI</h4>
+              <p class="sapphire-brand-subtitle">LMS of University • Campus Announcements & Vacancies Feed</p>
+            </div>
+          </div>
+
+          <!-- Crimson Glass Brand Strip (Shown in Crimson mode) -->
+          <div class="crimson-brand-strip" id="crimsonBrandStrip">
+            <div class="crimson-brand-inner">
+              <span class="crimson-brand-index">/ 04 • ARTHUB AGENCY</span>
+              <h4 class="crimson-brand-headline">CAMPUS CREATIVE COLLECTIVE</h4>
+              <p class="crimson-brand-motto">Where student visionaries, designers, & engineers lead the campus frontier.</p>
+            </div>
+          </div>
+
+          <!-- Intelly Studio Brand Strip (Shown in Intelly mode) -->
+          <div class="intelly-brand-strip" id="intellyBrandStrip">
+            <div class="intelly-brand-pill">
+              <span class="intelly-pill-dot"></span>
+              <span>Intelly Clinic & Studio UI</span>
+            </div>
+            <p class="intelly-brand-caption">Minimalist warm bento design • High aesthetic student telemetry & notices</p>
+          </div>
+        </div>
+      </main>
+
+      <!-- ====================================================================
+           VIEW 2: MESSAGING (Direct Individual & Official Communication)
+           ==================================================================== -->
+      <section id="messagingView" class="main-view messaging-view">
+        <div class="messaging-layout-container">
+          <!-- Sapphire UI LMS Navigation Sidebar (Shown in Sapphire UI mode) -->
+          <aside class="sapphire-lms-sidebar" id="sapphireLmsSidebar">
+            <div class="sapphire-nav-group">
+              <div class="sapphire-group-heading">GENERAL</div>
+              <nav class="sapphire-nav-list">
+                <button class="sapphire-nav-item" id="sapphireMsgNavDashboard">
+                  <i data-lucide="layout" class="lucide-icon-sm"></i>
+                  <span>Dashboard</span>
+                </button>
+                <button class="sapphire-nav-item">
+                  <i data-lucide="bar-chart-2" class="lucide-icon-sm"></i>
+                  <span>Monitoring</span>
+                </button>
+                <button class="sapphire-nav-item">
+                  <i data-lucide="graduation-cap" class="lucide-icon-sm"></i>
+                  <span>Classroom</span>
+                </button>
+                <button class="sapphire-nav-item active">
+                  <i data-lucide="message-square" class="lucide-icon-sm"></i>
+                  <span>Message</span>
+                </button>
+              </nav>
+            </div>
+
+            <div class="sapphire-nav-group">
+              <div class="sapphire-group-heading">MORE</div>
+              <nav class="sapphire-nav-list">
+                <button class="sapphire-nav-item">
+                  <i data-lucide="rotate-ccw" class="lucide-icon-sm"></i>
+                  <span>List Todo</span>
+                </button>
+                <button class="sapphire-nav-item ai-assistant-item">
+                  <i data-lucide="sparkles" class="lucide-icon-sm ai-sparkle-icon"></i>
+                  <span class="ai-assistant-text">AI Assistants</span>
+                </button>
+              </nav>
+            </div>
+
+            <div class="sapphire-nav-group">
+              <div class="sapphire-group-heading">COURSE STUDY</div>
+              <div class="sapphire-course-mentors">
+                <div class="mentor-row">
+                  <div class="mentor-avatar" style="background: #3b82f6;">DP</div>
+                  <span class="mentor-name">Dann Petty</span>
+                </div>
+                <div class="mentor-row">
+                  <div class="mentor-avatar" style="background: #10b981;">FA</div>
+                  <span class="mentor-name">Flux Academy</span>
+                </div>
+                <div class="mentor-row">
+                  <div class="mentor-avatar" style="background: #ec4899;">MC</div>
+                  <span class="mentor-name">Michelle Choi</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Left Sidebar: Conversations List -->
+          <aside class="conversations-sidebar">
+            <div class="sidebar-header">
+              <div class="sidebar-title-row">
+                <h3 class="sidebar-title">Messages</h3>
+                <span class="active-badge" id="onlineCountBadge">3 Online</span>
+              </div>
+              <div class="search-box-wrapper chat-search">
+                <i data-lucide="search" class="search-icon-lucide"></i>
+                <input type="text" id="chatSearchInput" class="search-input" placeholder="Search chats or organizers..." />
+              </div>
+            </div>
+
+            <div class="conversations-list" id="conversationsListContainer">
+              <!-- Dynamic Chat Threads -->
+            </div>
+          </aside>
+
+          <!-- Right Pane: Active Chat Room -->
+          <div class="chat-main-pane" id="chatMainPane">
+            <!-- Chat Header -->
+            <div class="chat-header" id="activeChatHeader">
+              <button class="chat-back-mobile-btn" id="chatBackMobileBtn" title="Back to conversations">
+                <i data-lucide="arrow-left" class="lucide-icon"></i>
+              </button>
+              <div class="chat-partner-info">
+                <div class="partner-avatar-wrapper">
+                  <div class="initials-avatar" id="activePartnerAvatar" style="border-color: #ec4899;">KP</div>
+                  <span class="online-indicator" id="activePartnerOnlineDot"></span>
+                </div>
+                <div>
+                  <h4 class="partner-name" id="activePartnerName">Kavya Patel</h4>
+                  <div class="partner-status" id="activePartnerStatus">Cultural Council Head • Online</div>
+                </div>
+              </div>
+
+              <!-- Context Pill -->
+              <div class="chat-context-pill" id="activeChatContextPill">
+                <i data-lucide="clipboard" class="lucide-icon-sm"></i>
+                <span id="activeChatTopic">Ignite 2026 Stage Logistics Vacancy</span>
+              </div>
+
+              <!-- Demo Cross-Instance Protocol Switcher & Status -->
+              <div class="demo-protocol-bar">
+                <span class="protocol-status-badge" title="Campus Karma Live Protocol: Synced across tabs & windows">
+                  <span class="protocol-ping-dot"></span>
+                  <span class="protocol-label">Live Protocol</span>
+                </span>
+                <button type="button" class="btn-demo-persona-toggle" id="toggleDemoPersonaBtn" title="Switch persona in this tab to test two-way live messaging demo">
+                  <span class="persona-prefix">Chatting as:</span>
+                  <strong class="persona-name" id="currentPersonaLabel">You (Aditya)</strong>
+                  <span class="persona-switch-pill">Switch ⇄</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Messages Stream Area -->
+            <div class="chat-messages-stream" id="chatMessagesStream">
+              <!-- Messages -->
+            </div>
+
+            <!-- Chat Composer -->
+            <form class="chat-composer-form" id="chatComposerForm">
+              <input type="text" id="chatMessageInput" class="composer-input" placeholder="Type a message to discuss vacancy or notice..." autocomplete="off" required />
+              <button type="submit" class="btn-send-message" id="sendMessageBtn">
+                <span>Send</span>
+                <i data-lucide="send" class="lucide-icon-sm"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 3: MARKETING / FEELS (Vertical Skill Gigs Feed)
+           ==================================================================== -->
+      <section id="reelsView" class="main-view reels-view">
+
+        <div class="feels-centered-container">
+          <div class="feels-top-bar">
+            <div class="feels-title-block">
+              <h2 class="reels-title">Campus Feels</h2>
+              <p class="reels-subtitle">Vertical short-form skill gigs • First-Come First-Serve</p>
+            </div>
+            <button class="btn-post-pill" id="openCreateReelModalBtn">
+              <i data-lucide="plus" class="lucide-icon-sm"></i>
+              <span>Post a Feel</span>
+            </button>
+          </div>
+
+          <div class="feels-vertical-stage">
+            <div class="feels-vertical-deck" id="reelsDeck">
+              <!-- Active Feel Card Injected Dynamically -->
+            </div>
+            
+            <div class="feels-vertical-controls">
+              <button class="feel-nav-btn" id="prevReelBtn" title="Previous Feel (Up Arrow / Scroll Up)">
+                ↑
+              </button>
+              <div class="feels-progress-dots" id="feelsProgressDots"></div>
+              <div class="feels-counter-indicator" id="feelsCounter">1 / 3</div>
+              <button class="feel-nav-btn" id="nextReelBtn" title="Next Feel (Down Arrow / Scroll Down)">
+                ↓
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        Campus Karma • Adverse Glass UI • Infrastructure for University Ecosystem
+      </footer>
+    </div>
+
+    <!-- ==========================================================================
+         PROFILE DRAWER (Matching Reference Screenshot Right Screen)
+         ========================================================================== -->
+    <dialog id="profileDrawer" class="profile-drawer-dialog">
+      <div class="profile-drawer-content">
+        <!-- Top Drag Pill -->
+        <div class="drawer-handle-bar">
+          <span class="drawer-drag-pill"></span>
+        </div>
+
+        <!-- Header Nav Row -->
+        <div class="drawer-header-row">
+          <button class="drawer-back-btn" id="closeProfileDrawerBtn" title="Back">
+            <i data-lucide="arrow-left" class="lucide-icon-sm"></i>
+          </button>
+          <span class="drawer-user-handle" id="drawerUserHandle">@aditya_v</span>
+          <button class="btn-edit-profile" id="editProfileBtn">Edit Profile</button>
+        </div>
+
+        <!-- Profile Dashboard Tabs Bar -->
+        <nav class="profile-dashboard-tabs" id="profileDashboardTabs">
+          <button class="profile-tab-btn active" data-profile-tab="overview">
+            <i data-lucide="user" class="lucide-icon-xs"></i>
+            <span>Overview</span>
+          </button>
+          <button class="profile-tab-btn" data-profile-tab="edit">
+            <i data-lucide="edit-3" class="lucide-icon-xs"></i>
+            <span>Edit Profile</span>
+          </button>
+          <button class="profile-tab-btn" data-profile-tab="posts">
+            <i data-lucide="send" class="lucide-icon-xs"></i>
+            <span>Your Posts</span>
+            <span class="tab-pill-badge" id="profilePostsBadge">0</span>
+          </button>
+          <button class="profile-tab-btn" data-profile-tab="applications">
+            <i data-lucide="clipboard" class="lucide-icon-xs"></i>
+            <span>Applications</span>
+            <span class="tab-pill-badge" id="profileAppsBadge">0</span>
+          </button>
+        </nav>
+
+        <!-- Profile Dashboard Scrollable Body -->
+        <div class="drawer-scroll-body">
+          <!-- TAB 1: OVERVIEW -->
+          <div class="profile-tab-panel active" id="profileTabOverview">
+            <div class="profile-hero-section">
+              <div class="profile-title-row">
+                <div>
+                  <h2 class="profile-full-name" id="drawerFullName">Aditya Verma</h2>
+                  <span class="profile-sub-handle" id="drawerSubHandle">@aditya_v • Computer Science & Design</span>
+                </div>
+                <div class="profile-action-icons">
+                  <button class="profile-icon-btn star-btn" title="Favorite">
+                    <i data-lucide="sparkles" class="lucide-icon-sm"></i>
+                  </button>
+                  <button class="profile-icon-btn mail-btn" id="drawerMsgBtn" title="Direct Message">
+                    <i data-lucide="mail" class="lucide-icon-sm"></i>
+                  </button>
+                </div>
+              </div>
+
+              <p class="profile-bio-text" id="drawerBio">
+                Full-stack developer and student UI designer building open infrastructure for campus activities.
+              </p>
+
+              <!-- Stats Counters Row (Followers, Following, Creations) -->
+              <div class="profile-stats-row">
+                <div class="stat-col">
+                  <span class="stat-value" id="drawerFollowersCount">521</span>
+                  <span class="stat-label">Followers</span>
+                </div>
+                <div class="stat-col">
+                  <span class="stat-value" id="drawerFollowingCount">345</span>
+                  <span class="stat-label">Following</span>
+                </div>
+                <div class="stat-col">
+                  <span class="stat-value" id="drawerCreationsCount">18</span>
+                  <span class="stat-label">Karma / Work</span>
+                </div>
+              </div>
+
+              <!-- Tags Row (@developer, @designer, etc.) -->
+              <div class="profile-tags-row" id="drawerTagsRow">
+                <span class="profile-tag-chip">@developer</span>
+                <span class="profile-tag-chip">@designer</span>
+                <span class="profile-tag-chip">@uiux</span>
+                <span class="profile-tag-chip">@systems</span>
+              </div>
+
+              <!-- Active Campus Clubs Section -->
+              <div class="portfolio-carousel-section" id="drawerClubsSection">
+                <div class="stat-label" style="margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
+                  <span>Active Campus Clubs (Private Access)</span>
+                  <button type="button" class="btn-manage-clubs-action" id="drawerManageClubsBtn" style="background: none; border: none; font-size: 0.72rem; color: var(--primary); cursor: pointer; font-weight: 700;">+ Edit Clubs</button>
+                </div>
+                <div class="projects-list-row" id="drawerClubsList">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+
+              <!-- Verified Campus Contributions -->
+              <div class="portfolio-carousel-section">
+                <div class="stat-label" style="margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;">Verified Deliverables</div>
+                <div class="projects-list-row" id="drawerPortfolioRow">
+                  <div class="project-item-pill">🚀 Campus Hackathon Portal v2.4</div>
+                  <div class="project-item-pill">⚡ E-Cell Founder Directory</div>
+                  <div class="project-item-pill">🛠️ Soundstage Mix Console UI</div>
+                </div>
+              </div>
+
+              <!-- Review / Testimonial Card (Elena Juni) -->
+              <div class="testimonial-glass-card">
+                <div class="initials-avatar" style="width: 34px; height: 34px; font-size: 0.75rem; border-color: #ec4899; flex-shrink: 0;">
+                  EJ
+                </div>
+                <div class="testimonial-content">
+                  <p class="testimonial-text" id="drawerTestimonialText">
+                    "Thanks for the great UI components for our campus hackathon portal! Delivered 2 days ahead of schedule."
+                  </p>
+                  <div class="testimonial-author" id="drawerTestimonialAuthor">Elena Juni</div>
+                  <div class="testimonial-handle" id="drawerTestimonialHandle">@elena.juni</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: EDIT PROFILE -->
+          <div class="profile-tab-panel" id="profileTabEdit">
+            <form id="dashEditProfileForm" class="dashboard-edit-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="dashEditFullName">Full Name *</label>
+                  <input type="text" id="dashEditFullName" class="form-input" placeholder="e.g. Aditya Verma" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="dashEditHandle">Handle (@username) *</label>
+                  <input type="text" id="dashEditHandle" class="form-input" placeholder="e.g. @aditya_v" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="dashEditStudentId">Student ID / Roll No *</label>
+                  <input type="text" id="dashEditStudentId" class="form-input" placeholder="e.g. 2023-CS-042" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="dashEditDepartment">Department / Major *</label>
+                  <input type="text" id="dashEditDepartment" class="form-input" placeholder="e.g. Computer Science & Design" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="dashEditAvatarLetter">Avatar Initials (1-2 chars)</label>
+                  <input type="text" id="dashEditAvatarLetter" class="form-input" maxlength="2" placeholder="e.g. AV" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="dashEditTags">Campus Skills & Tags (comma separated)</label>
+                  <input type="text" id="dashEditTags" class="form-input" placeholder="e.g. @developer, @designer, @uiux, @systems" />
+                </div>
+
+                <div class="form-group full-width">
+                  <label class="form-label" for="dashEditBio">Bio / Campus Mission *</label>
+                  <textarea id="dashEditBio" class="form-textarea" rows="3" placeholder="Tell the campus community what you build..." required></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                  <label class="form-label">Campus Club Memberships (Grants access to private club-only announcements)</label>
+                  <div class="clubs-checkbox-grid" id="dashEditClubsContainer">
+                    <!-- Rendered dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions-row" style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem;">
+                <button type="button" class="btn-rsvp-toggle" id="cancelDashEditBtn">Reset</button>
+                <button type="submit" class="btn-primary" id="saveDashProfileBtn">Save Profile Changes</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- TAB 3: YOUR POSTS -->
+          <div class="profile-tab-panel" id="profileTabPosts">
+            <div class="tab-action-header">
+              <div>
+                <h4 style="font-size: 0.95rem; font-weight: 700; margin: 0;">Your Published Posts</h4>
+                <small style="color: var(--text-secondary); font-size: 0.74rem;">Notices, vacancies, and gig reels you posted</small>
+              </div>
+              <button type="button" class="btn-primary" id="dashNewPostBtn" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; border-radius: 9999px;">
+                + Post Notice
+              </button>
+            </div>
+            <div class="user-posts-list" id="userPostsList">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- TAB 4: YOUR APPLICATIONS -->
+          <div class="profile-tab-panel" id="profileTabApplications">
+            <div class="tab-action-header">
+              <div>
+                <h4 style="font-size: 0.95rem; font-weight: 700; margin: 0;">Applications Applied</h4>
+                <small style="color: var(--text-secondary); font-size: 0.74rem;">Live tracking from local database</small>
+              </div>
+              <span class="db-synced-pill">📁 Local DB</span>
+            </div>
+            <div class="drawer-applications-list" id="drawerApplicationsList">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Edit User Profile Modal -->
+    <dialog id="editProfileModal" class="modal-dialog">
+      <div class="modal-dialog-content">
+        <header class="modal-header">
+          <div class="modal-header-title">
+            <span>✏️ Edit Scholar Profile</span>
+          </div>
+          <button class="btn-close-modal" id="closeEditProfileModalBtn" aria-label="Close dialog">✕</button>
+        </header>
+
+        <form id="editProfileForm" class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="editFullName">Full Name *</label>
+              <input type="text" id="editFullName" class="form-input" placeholder="e.g. Aditya Verma" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="editHandle">Handle (@username) *</label>
+              <input type="text" id="editHandle" class="form-input" placeholder="e.g. @aditya_v" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="editStudentId">Student ID / Roll No *</label>
+              <input type="text" id="editStudentId" class="form-input" placeholder="e.g. 2023-CS-042" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="editDepartment">Department / Major *</label>
+              <input type="text" id="editDepartment" class="form-input" placeholder="e.g. Computer Science & Design" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="editAvatarLetter">Avatar Initials (1-2 chars)</label>
+              <input type="text" id="editAvatarLetter" class="form-input" maxlength="2" placeholder="e.g. AV" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="editTags">Campus Skills & Tags (comma separated)</label>
+              <input type="text" id="editTags" class="form-input" placeholder="e.g. @developer, @designer, @uiux, @systems" />
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label" for="editBio">Bio / Campus Mission *</label>
+              <textarea id="editBio" class="form-textarea" rows="3" placeholder="Tell the campus community what you build..." required></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Campus Club Memberships (Grants access to private club-only announcements)</label>
+              <div class="clubs-checkbox-grid" id="editClubsContainer">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <footer class="modal-footer" style="padding: 1rem 0 0; margin-top: 1rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: flex-end; gap: 0.75rem;">
+            <button type="button" class="btn-rsvp-toggle" id="cancelEditProfileBtn">Cancel</button>
+            <button type="submit" class="btn-primary" id="saveProfileBtn">Save Profile Changes</button>
+          </footer>
+        </form>
+      </div>
+    </dialog>
+
+    <!-- Detail Modal -->
+    <dialog id="detailModal" class="modal-dialog">
+      <div class="modal-dialog-content">
+        <header class="modal-header">
+          <div class="modal-header-title">
+            <span id="modalCategoryBadge" class="badge-category">Announcement</span>
+            <span id="modalUrgentBadge" class="urgent-tag" style="display: none;">Urgent</span>
+          </div>
+          <button class="btn-close-modal" id="closeDetailModalBtn" aria-label="Close dialog">✕</button>
+        </header>
+
+        <div class="modal-body" id="detailModalBody">
+          <!-- Dynamic -->
+        </div>
+
+        <footer class="modal-footer">
+          <div style="display: flex; gap: 0.5rem;">
+            <button id="modalBookmarkBtn" class="btn-icon" title="Bookmark">★</button>
+            <button id="modalShareBtn" class="btn-icon" title="Share">🔗</button>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <button id="modalMessageOrganizerBtn" class="btn-rsvp-toggle">
+              <span>💬 Message Lead</span>
+            </button>
+            <button id="modalRsvpBtn" class="btn-primary">
+              <span>Register / Apply</span>
+            </button>
+          </div>
+        </footer>
+      </div>
+    </dialog>
+
+    <!-- Create Modal -->
+    <dialog id="createModal" class="modal-dialog">
+      <div class="modal-dialog-content">
+        <header class="modal-header">
+          <div class="modal-header-title">
+            <span>📢 Post Notice or Vacancy</span>
+          </div>
+          <button class="btn-close-modal" id="closeCreateModalBtn">✕</button>
+        </header>
+
+        <form id="createAnnouncementForm" class="modal-body">
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label class="form-label" for="formTitle">Title *</label>
+              <input type="text" id="formTitle" class="form-input" placeholder="e.g. STAGE CREW: SOUND & LIGHT LOGISTICS" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="formCategory">Category *</label>
+              <select id="formCategory" class="form-select" required>
+                <option value="vacancies">🛠️ Manpower & Club Vacancy (Work / Karma Points)</option>
+                <option value="workshop">⚡ Workshop (Timed Announcement)</option>
+                <option value="club">👥 Club Exclusive (Selective Announcement)</option>
+                <option value="fest">🎉 College Fest (Timed Event)</option>
+                <option value="seminar">🎓 Academic Seminar / Keynote</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="formOrganizer">Club / Lead Name *</label>
+              <input type="text" id="formOrganizer" class="form-input" placeholder="e.g. Cultural Council" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="formCompensation">Compensation / Perks</label>
+              <input type="text" id="formCompensation" class="form-input" placeholder="e.g. 🪙 800 Karma Points + Passes" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="formClubName">Publishing Club / Society</label>
+              <select id="formClubName" class="form-select">
+                <option value="">General Campus (No specific club)</option>
+                <option value="Design Guild">🎨 Design Guild</option>
+                <option value="Robotics Society">🤖 Robotics Society</option>
+                <option value="Cultural Council">🏛️ Cultural Council</option>
+                <option value="AI & Code Collective">⚡ AI & Code Collective</option>
+                <option value="E-Cell Incubator">🚀 E-Cell Incubator</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="formVisibility">Audience & Privacy *</label>
+              <select id="formVisibility" class="form-select" required>
+                <option value="public">🌐 Public (Visible to all students)</option>
+                <option value="club_only">🔒 Club Only (Private to members of selected club)</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label" for="formSummary">Summary *</label>
+              <input type="text" id="formSummary" class="form-input" placeholder="Quick summary displayed on card" required />
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label" for="formContent">Full Details & Requirements *</label>
+              <textarea id="formContent" class="form-textarea" placeholder="Detailed responsibilities, schedule, perks..." required></textarea>
+            </div>
+          </div>
+        </form>
+
+        <footer class="modal-footer">
+          <button type="button" class="btn-rsvp-toggle" id="cancelCreateBtn">Cancel</button>
+          <button type="submit" form="createAnnouncementForm" class="btn-primary">Publish to Campus</button>
+        </footer>
+      </div>
+    </dialog>
+
+    <!-- Create Reel Modal -->
+    <dialog id="createReelModal" class="modal-dialog">
+      <div class="modal-dialog-content">
+        <header class="modal-header">
+          <div class="modal-header-title">
+            <span>🎬 Post a Campus Feel</span>
+          </div>
+          <button class="btn-close-modal" id="closeCreateReelModalBtn">✕</button>
+        </header>
+
+        <form id="createReelForm" class="modal-body">
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label class="form-label" for="reelTitle">Feel Title / Gig Hook *</label>
+              <input type="text" id="reelTitle" class="form-input" placeholder="e.g. WANTED: FEST AFTERMOVIE EDITOR" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reelClient">Organizer / Client *</label>
+              <input type="text" id="reelClient" class="form-input" placeholder="e.g. Cultural Fest Council" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reelBountyKarma">Karma Points Bounty *</label>
+              <input type="number" id="reelBountyKarma" class="form-input" placeholder="e.g. 1500" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reelStipendCash">Cash Stipend / Perks (optional)</label>
+              <input type="text" id="reelStipendCash" class="form-input" placeholder="e.g. ₹3,500" value="₹3,000" />
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label" for="reelSkills">Required Skills *</label>
+              <input type="text" id="reelSkills" class="form-input" placeholder="Premiere, After Effects, Sound" required />
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label" for="reelProblem">Problem Statement / Deliverables *</label>
+              <textarea id="reelProblem" class="form-textarea" rows="3" placeholder="Explain the exact work required..." required></textarea>
+            </div>
+          </div>
+
+          <footer class="modal-footer" style="padding: 1rem 0 0; margin-top: 1rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: flex-end; gap: 0.75rem;">
+            <button type="button" class="btn-rsvp-toggle" id="cancelCreateReelBtn">Cancel</button>
+            <button type="submit" class="btn-primary" id="publishFeelSubmitBtn">Publish Feel</button>
+          </footer>
+        </form>
+      </div>
+    </dialog>
+
+    <!-- Apply for Reel Gig Modal -->
+    <dialog id="applyGigModal" class="modal-dialog">
+      <div class="modal-dialog-content">
+        <header class="modal-header">
+          <div class="modal-header-title">
+            <span>⚡ Claim Skill Gig</span>
+          </div>
+          <button class="btn-close-modal" id="closeApplyGigModalBtn">✕</button>
+        </header>
+
+        <div class="modal-body" id="applyGigModalBody">
+          <!-- Injected dynamically -->
+        </div>
+
+        <footer class="modal-footer">
+          <button type="button" class="btn-rsvp-toggle" id="cancelApplyGigBtn">Cancel</button>
+          <button type="button" class="btn-primary" id="confirmAcceptGigBtn">Accept Gig & Claim Bounty</button>
+        </footer>
+      </div>
+    </dialog>
+
+    <!-- ==========================================================================
+         THEME & PALETTE CUSTOMIZER MODAL
+         ========================================================================== -->
+    <dialog id="themeModal" class="modal-dialog theme-customizer-dialog">
+      <div class="modal-dialog-content">
+        <header class="modal-header">
+          <div class="modal-header-title">
+            <i data-lucide="palette" class="lucide-icon"></i>
+            <span>Theme & Palette Customizer</span>
+          </div>
+          <button class="btn-close-modal" id="closeThemeModalBtn">✕</button>
+        </header>
+
+        <div class="modal-body theme-customizer-body">
+          <!-- Preset Themes Section -->
+          <div class="theme-section">
+            <div class="theme-section-title">Curated Presets</div>
+            <div class="theme-preset-grid">
+              <button class="preset-pill-btn active" data-preset="smart-black">
+                <span class="preset-swatch" style="background: #000000; border: 1px solid rgba(255,255,255,0.3);"></span>
+                <span>Smart Black</span>
+              </button>
+              <button class="preset-pill-btn" data-preset="paper-white">
+                <span class="preset-swatch" style="background: #f8f9fa; border: 1px solid #cbd5e1;"></span>
+                <span>Paper White</span>
+              </button>
+              <button class="preset-pill-btn" data-preset="midnight-navy">
+                <span class="preset-swatch" style="background: #090d16; border: 1px solid #3b82f6;"></span>
+                <span>Midnight Navy</span>
+              </button>
+              <button class="preset-pill-btn" data-preset="cyber-emerald">
+                <span class="preset-swatch" style="background: #03140a; border: 1px solid #10b981;"></span>
+                <span>Cyber Emerald</span>
+              </button>
+              <button class="preset-pill-btn" data-preset="obsidian-violet">
+                <span class="preset-swatch" style="background: #0f0a17; border: 1px solid #8b5cf6;"></span>
+                <span>Obsidian Violet</span>
+              </button>
+              <button class="preset-pill-btn" data-preset="minimal-slate">
+                <span class="preset-swatch" style="background: #18181b; border: 1px solid #71717a;"></span>
+                <span>Titanium Slate</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Custom Color Shades Pickers -->
+          <div class="theme-section">
+            <div class="theme-section-title">Custom Palette Shades</div>
+            <div class="palette-picker-grid">
+              
+              <div class="picker-row">
+                <div class="picker-label-group">
+                  <span class="picker-name">Base Background</span>
+                  <span class="picker-desc">Main canvas and app foundation</span>
+                </div>
+                <div class="picker-input-group">
+                  <input type="color" id="pickerBgBase" class="color-picker-input" value="#000000" />
+                  <input type="text" id="hexBgBase" class="color-hex-input" value="#000000" maxlength="7" />
+                </div>
+              </div>
+
+              <div class="picker-row">
+                <div class="picker-label-group">
+                  <span class="picker-name">Surface / Cards</span>
+                  <span class="picker-desc">Elevated panels, modals, and notice cards</span>
+                </div>
+                <div class="picker-input-group">
+                  <input type="color" id="pickerBgSurface" class="color-picker-input" value="#0a0a0d" />
+                  <input type="text" id="hexBgSurface" class="color-hex-input" value="#0a0a0d" maxlength="7" />
+                </div>
+              </div>
+
+              <div class="picker-row">
+                <div class="picker-label-group">
+                  <span class="picker-name">Primary Accent</span>
+                  <span class="picker-desc">Buttons, highlights, and active elements</span>
+                </div>
+                <div class="picker-input-group">
+                  <input type="color" id="pickerAccent" class="color-picker-input" value="#ffffff" />
+                  <input type="text" id="hexAccent" class="color-hex-input" value="#ffffff" maxlength="7" />
+                </div>
+              </div>
+
+              <div class="picker-row">
+                <div class="picker-label-group">
+                  <span class="picker-name">Primary Text</span>
+                  <span class="picker-desc">Headlines, main titles, and high contrast text</span>
+                </div>
+                <div class="picker-input-group">
+                  <input type="color" id="pickerTextPrimary" class="color-picker-input" value="#ffffff" />
+                  <input type="text" id="hexTextPrimary" class="color-hex-input" value="#ffffff" maxlength="7" />
+                </div>
+              </div>
+
+              <div class="picker-row">
+                <div class="picker-label-group">
+                  <span class="picker-name">Secondary Text</span>
+                  <span class="picker-desc">Descriptions, timestamps, and metadata</span>
+                </div>
+                <div class="picker-input-group">
+                  <input type="color" id="pickerTextSecondary" class="color-picker-input" value="#a1a1aa" />
+                  <input type="text" id="hexTextSecondary" class="color-hex-input" value="#a1a1aa" maxlength="7" />
+                </div>
+              </div>
+
+              <div class="picker-row">
+                <div class="picker-label-group">
+                  <span class="picker-name">Hairline Borders</span>
+                  <span class="picker-desc">Card edges, dividers, and precision outlines</span>
+                </div>
+                <div class="picker-input-group">
+                  <input type="color" id="pickerBorder" class="color-picker-input" value="#27272a" />
+                  <input type="text" id="hexBorder" class="color-hex-input" value="#27272a" maxlength="7" />
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Live Preview Card Inside Modal -->
+          <div class="theme-section">
+            <div class="theme-section-title">Real-Time Palette Preview</div>
+            <div class="theme-preview-box" id="themePreviewBox">
+              <div class="preview-card-inner">
+                <div class="preview-header-row">
+                  <span class="preview-badge-pill">PREVIEW NOTICE</span>
+                  <span class="preview-time-text">Just now</span>
+                </div>
+                <h4 class="preview-heading">Campus Karma Dynamic Theme</h4>
+                <p class="preview-desc">Notice cards, buttons, and high-contrast typography will render using your selected shades.</p>
+                <div class="preview-btn-row">
+                  <button type="button" class="btn-primary" style="padding: 0.4rem 0.9rem; font-size: 0.78rem;">Primary Action</button>
+                  <button type="button" class="btn-rsvp-toggle" style="padding: 0.4rem 0.8rem; font-size: 0.78rem;">Secondary</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="modal-footer">
+          <button type="button" class="btn-rsvp-toggle" id="resetThemeBtn">Reset Defaults</button>
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="button" class="btn-rsvp-toggle" id="cancelThemeModalBtn">Close</button>
+            <button type="button" class="btn-primary" id="saveThemeBtn">Save & Apply</button>
+          </div>
+        </footer>
+      </div>
+    </dialog>
+
+    <!-- Phone Preview Modal -->
+    <dialog id="phonePreviewModal" class="glass-modal" aria-labelledby="phoneModalTitle">
+      <div class="modal-card phone-preview-modal-card">
+        <header class="modal-header">
+          <div class="modal-title-wrap">
+            <span class="modal-title-icon">📱</span>
+            <div>
+              <h3 id="phoneModalTitle">Preview on Mobile Phone</h3>
+              <p class="modal-subtitle">Live testing on your iPhone or Android device</p>
+            </div>
+          </div>
+          <button class="btn-close-modal" id="closePhonePreviewModalBtn" aria-label="Close modal">✕</button>
+        </header>
+
+        <div class="phone-preview-body">
+          <div class="qr-code-display-wrap">
+            <div class="qr-code-frame">
+              <img src="/assets/phone_preview_qr.png" alt="Scan QR Code to open on phone" class="phone-qr-img" />
+            </div>
+            <span class="qr-scan-hint">Scan with your phone's camera</span>
+          </div>
+
+          <div class="network-link-box">
+            <label class="network-link-label">Local Wi-Fi Network URL:</label>
+            <div class="network-url-copy-row">
+              <input type="text" readonly value="http://192.168.0.198:5173/" id="phoneNetworkUrlInput" class="network-url-input" />
+              <button type="button" id="copyPhoneUrlBtn" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.82rem;">
+                <i data-lucide="copy" class="lucide-icon-xs"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="phone-connect-steps">
+            <div class="step-item">
+              <span class="step-num">1</span>
+              <span>Connect your phone to the same Wi-Fi network.</span>
+            </div>
+            <div class="step-item">
+              <span class="step-num">2</span>
+              <span>Scan the QR code above or type the URL in Safari / Chrome.</span>
+            </div>
+            <div class="step-item">
+              <span class="step-num">3</span>
+              <span>Enjoy the live responsive layout & switch between all 4 themes!</span>
+            </div>
+          </div>
+        </div>
+
+        <footer class="modal-footer" style="justify-content: flex-end;">
+          <button type="button" class="btn-rsvp-toggle" id="closePhonePreviewFooterBtn">Close</button>
+        </footer>
+      </div>
+    </dialog>
+
+    <!-- Intelly Assistant Floating Widget (Minimized to icon, expand on click) -->
+    <div class="intelly-assistant-widget" id="intellyAssistantWidget">
+      <!-- Minimized Floating Action Button -->
+      <button class="assistant-fab-btn" id="intellyAssistantFab" title="Open Intelly Assistant" aria-label="Open Intelly Assistant">
+        <span class="assistant-fab-icon">🌸</span>
+        <span class="assistant-fab-ping"></span>
+      </button>
+
+      <!-- Expandable Assistant Bubble Card -->
+      <div class="assistant-bubble-card" id="intellyAssistantBubble" style="display: none;">
+        <div class="assistant-header">
+          <div class="assistant-title-group">
+            <span class="assistant-icon">🌸</span>
+            <strong>Intelly Assistant</strong>
+          </div>
+          <button class="assistant-close-btn" id="closeIntellyAssistantBtn" title="Minimize to icon">✕</button>
+        </div>
+        <div class="assistant-chat-body">
+          <div class="assistant-msg">
+            <p>Hey, Scholar! 👋 I'm Intelly.</p>
+          </div>
+          <div class="assistant-msg">
+            <p>Found 7 active campus announcements & vacancies matching your skills. Need a quick tour?</p>
+          </div>
+        </div>
+        <button class="assistant-cta-btn" id="intellyAssistantCtaBtn">Show recommendations</button>
+      </div>
+    </div>
+
+    <!-- Floating Toast Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
