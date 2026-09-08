@@ -175,6 +175,36 @@
   ],
   "announcements": [
     {
+      "id": "ann-1788891596164",
+      "authorId": "user-aditya",
+      "title": "andpau",
+      "category": "vacancies",
+      "categoryLabel": "Club Vacancy",
+      "isVacancy": true,
+      "accentColor": "#f59e0b",
+      "icon": "briefcase",
+      "compensation": "🪙 500 KP Credit",
+      "bountyKarma": 500,
+      "isClubOnly": false,
+      "openPositions": 3,
+      "claimedPositions": 0,
+      "organizer": {
+        "id": "user-aditya",
+        "name": "sdfsd",
+        "role": "Undergraduate Student / Full-Stack Builder",
+        "avatarLetter": "SD",
+        "accent": "#6366f1"
+      },
+      "publishedAt": "2026-09-08T18:19:56.164Z",
+      "summary": "dsfsd",
+      "content": "fsdfsd",
+      "tags": [
+        "Campus"
+      ],
+      "rsvps": 0,
+      "location": "Campus Center"
+    },
+    {
       "id": "ann-1788888603634",
       "authorId": "user-aditya",
       "title": "afasf",

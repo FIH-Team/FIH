@@ -527,6 +527,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  margin-left: auto;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
@@ -544,6 +545,18 @@ body {
   color: var(--text-primary);
 }
 
+html[data-ui-style="intelly"][data-theme="light"] #openCreateModalBtn {
+  background: #f8f8f7 !important;
+  border-color: #e4e4e1 !important;
+  color: #52525b !important;
+}
+
+html[data-ui-style="intelly"][data-theme="light"] #openCreateModalBtn:hover {
+  background: #eeeeec !important;
+  border-color: #d8d8d4 !important;
+  color: #18181b !important;
+}
+
 /* Announcements Top-Left Controls Bar */
 .announcements-controls-bar {
   display: flex;
@@ -555,8 +568,9 @@ body {
 .category-filter-bar {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.45rem;
-  overflow-x: auto;
+  overflow-x: visible;
   padding-bottom: 0.25rem;
   scrollbar-width: none;
 }
@@ -661,6 +675,24 @@ body {
   max-width: 520px;
   width: 100%;
   margin: 0 auto;
+}
+
+[data-ui-style="intelly"] .announcements-controls-bar {
+  order: 1;
+}
+
+[data-ui-style="intelly"] .section-title-tag strong {
+  color: var(--text-secondary);
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+[data-ui-style="intelly"] .announcements-grid {
+  order: 2;
+}
+
+[data-ui-style="intelly"] .intelly-bento-header {
+  order: 3;
 }
 
 /* Instagram Post Card */
@@ -4402,7 +4434,7 @@ dialog.modal-dialog::backdrop {
 
 [data-ui-style="intelly"] .intelly-bento-header {
   display: grid !important;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 1fr;
   gap: 1.15rem;
   margin-bottom: 1.15rem;
   align-items: stretch;
@@ -4419,7 +4451,7 @@ dialog.modal-dialog::backdrop {
 .intelly-side-docket {
   background: #ffffff;
   border: 1px solid #eae5dc;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 1.25rem 1.35rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
 }
@@ -5341,7 +5373,9 @@ dialog.modal-dialog::backdrop {
   /* Story Tray Horizontal Scroll on Mobile */
   .category-filter-bar {
     margin: 0 -0.65rem;
+    flex-wrap: nowrap;
     padding: 0.1rem 0.65rem 0.35rem;
+    overflow-x: auto;
     gap: 0.4rem;
     -webkit-overflow-scrolling: touch;
   }
@@ -9007,8 +9041,6 @@ dialog.profile-drawer-dialog {
   background: var(--surface) !important;
   border: 1px solid var(--border) !important;
   transition: max-height 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
-    top 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
-    left 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
     transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.22s ease,
     border-color 0.22s ease !important;
@@ -9023,17 +9055,13 @@ dialog.profile-drawer-dialog {
 }
 
 @keyframes announcementOpenBounce {
-  0% { transform: scale(1) translateY(0); }
-  32% { transform: scale(1.025) translateY(-4px); }
-  62% { transform: scale(0.995) translateY(2px); }
-  100% { transform: scale(1) translateY(0); }
+  0% { opacity: 0.86; }
+  100% { opacity: 1; }
 }
 
 @keyframes announcementCloseBounce {
-  0% { transform: scale(1) translateY(0); }
-  32% { transform: scale(0.985) translateY(3px); }
-  64% { transform: scale(1.012) translateY(-2px); }
-  100% { transform: scale(1) translateY(0); }
+  0% { opacity: 0.86; }
+  100% { opacity: 1; }
 }
 
 @keyframes announcementParallaxOpen {

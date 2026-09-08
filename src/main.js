@@ -220,6 +220,7 @@ function animateAnnouncementCard(cardId, direction) {
     });
     activeCardId = null;
     announcementAnimationDirection = null;
+    requestAnimationFrame(layoutAnnouncementCards);
   }, 700);
 }
 
@@ -258,7 +259,9 @@ function layoutAnnouncementCards() {
   announcementsGrid.style.height = `${Math.max(...columnHeights) - gap}px`;
 
   requestAnimationFrame(() => {
-    applyAnnouncementAnimationClasses(movingCardIds);
+    if (!activeCardId) {
+      applyAnnouncementAnimationClasses();
+    }
     cards.forEach(card => {
       const previous = previousPositions.get(card);
       const next = card.getBoundingClientRect();
@@ -1543,7 +1546,9 @@ function renderAnnouncements() {
   applyAnnouncementAnimationClasses();
   layoutAnnouncementCards();
   if (!announcementResizeObserver) {
-    announcementResizeObserver = new ResizeObserver(() => layoutAnnouncementCards());
+    announcementResizeObserver = new ResizeObserver(() => {
+      layoutAnnouncementCards();
+    });
   }
   announcementResizeObserver.disconnect();
   announcementsGrid.querySelectorAll('.ig-post-card').forEach(card => announcementResizeObserver.observe(card));
@@ -3923,6 +3928,7 @@ async function loadAllBackendData() {
 
     syncUserProfileToUI();
     updateKarmaDisplay();
+    renderCategoryBar();
     renderAnnouncements();
     renderConversationsList();
     renderActiveChat();
