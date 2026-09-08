@@ -5,6 +5,15 @@
 
 :root {
   /* Smart Black Foundations (Default) */
+::view-transition {
+  background: var(--bg-base);
+}
+
+::view-transition-group(root),
+::view-transition-image-pair(root) {
+  background: var(--bg-base);
+}
+
   --bg-base: #000000;
   --bg-surface: #0a0a0d;
   --bg-surface-elevated: #121216;
