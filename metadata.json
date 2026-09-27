@@ -1,0 +1,8 @@
+{
+  "name": "Campus Karma",
+  "description": "Campus connectivity platform — Connect with peers, discover opportunities, and build your campus network.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
