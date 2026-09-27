@@ -1,16 +1,17 @@
 import React from 'react';
-import {Routes, Route, Navigate} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import {geistSans, geistMono, geistPixel} from './lib/fonts';
 import {BackgroundEffect} from './components/BackgroundEffect';
 import {Navbar} from './components/Navbar';
 import {Hero} from './components/Hero';
 import {MacMenuBar} from './components/MacMenuBar';
+import {InboxMockup} from './components/InboxMockup';
 import {FeatureTriage} from './components/FeatureTriage';
 import {LogoCloud} from './components/LogoCloud';
 import {Testimonials} from './components/Testimonials';
 import {FinalCTA} from './components/FinalCTA';
 import {FeelsMarketplace} from './components/FeelsMarketplace';
-import {Bulletin} from './components/Bulletin';
+import {DashboardPage} from './components/DashboardPage';
 
 export const App: React.FC = () => {
   return (
@@ -50,12 +51,13 @@ export const App: React.FC = () => {
       {/* Page Content */}
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
-        <main>
+        <main className="flex-1 flex flex-col">
           <Routes>
             <Route path="/" element={
               <>
                 <Hero />
                 <MacMenuBar />
+                <InboxMockup />
                 <FeatureTriage />
                 <FeelsMarketplace />
                 <LogoCloud />
@@ -63,8 +65,8 @@ export const App: React.FC = () => {
                 <FinalCTA />
               </>
             } />
-            <Route path="/bulletin" element={<Bulletin />} />
-            <Route path="/dashboard" element={<Navigate to="/bulletin" replace />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/bulletin" element={<DashboardPage />} />
           </Routes>
         </main>
       </div>

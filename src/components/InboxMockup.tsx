@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link } from 'react-router-dom';
 import {
   Search,
   Heart,
@@ -25,7 +26,9 @@ import {
   User,
   X,
   Lock,
+  ExternalLink,
 } from 'lucide-react';
+import { ANNOUNCEMENTS_DATA } from '../data/announcements';
 
 interface AnnouncementItem {
   id: string;
@@ -483,10 +486,21 @@ export const InboxMockup: React.FC = () => {
             <span>Campus Bulletin · Announcements & Opportunities</span>
           </div>
 
-          {/* Right indicator */}
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="hidden sm:inline text-[11px] text-white/40 font-medium">Live Feed</span>
+          {/* Right indicator & Full Dashboard button */}
+          <div className="flex items-center gap-3">
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium text-white bg-white/10 hover:bg-white/20 border border-white/15 transition-all shadow-xs"
+              title="Open full-screen webmail dashboard"
+            >
+              <span>Open Dashboard</span>
+              <ExternalLink className="w-3 h-3 text-white/70" />
+            </Link>
+
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="hidden sm:inline text-[11px] text-white/40 font-medium">Live Feed</span>
+            </div>
           </div>
         </div>
 
