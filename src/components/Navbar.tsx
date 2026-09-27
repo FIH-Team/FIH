@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, User } from 'lucide-react';
-import { LogoMark, AppleButton } from './Primitives';
+import { LogoMark } from './Primitives';
 import { AuthModal } from './AuthModal';
 
 const navLinks = ['Dashboard', 'Connect', 'Feels', 'profile'];
@@ -9,9 +10,39 @@ const navLinks = ['Dashboard', 'Connect', 'Feels', 'profile'];
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
     e.preventDefault();
+    const id = link.toLowerCase();
+
+    // If Dashboard link is clicked, open the Bulletin / Dashboard page
+    if (id === 'dashboard') {
+      if (location.pathname === '/bulletin' || location.pathname === '/dashboard') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        navigate('/bulletin');
+      }
+      return;
+    }
+
+    // For landing page sections (Connect, Feels, Profile)
+    if (location.pathname !== '/') {
+      navigate(`/#${id}`);
+      setTimeout(() => {
+        const elem = document.getElementById(id);
+        if (elem) {
+          elem.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+      return;
+    }
+
+    scrollToSection(id);
+  };
+
+  const scrollToSection = (targetId: string) => {
     const id = targetId.toLowerCase();
     const targetElement = document.getElementById(id);
     if (!targetElement) {
@@ -53,6 +84,17 @@ export const Navbar: React.FC = () => {
     requestAnimationFrame(step);
   };
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.history.pushState(null, '', '/');
+    }
+  };
+
   return (
     <header className="relative z-30 pt-6">
       <motion.nav
@@ -61,10 +103,10 @@ export const Navbar: React.FC = () => {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="relative max-w-6xl mx-auto px-6 flex items-center justify-between"
       >
-        {/* Left: just the LogoMark (NO "Campus Karma" word) */}
+        {/* Left: LogoMark linking to Home */}
         <a
-          href="#dashboard"
-          onClick={(e) => scrollToSection(e, 'dashboard')}
+          href="/"
+          onClick={handleLogoClick}
           className="inline-flex items-center"
           aria-label="Campus Karma Home"
         >
@@ -73,19 +115,29 @@ export const Navbar: React.FC = () => {
 
         {/* Center: Desktop links with staggered animation */}
         <div id="nav-links-center" className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-8">
-          {navLinks.map((link, i) => (
-            <motion.a
-              key={link}
-              href={`#${link.toLowerCase()}`}
-              onClick={(e) => scrollToSection(e, link)}
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + i * 0.05, duration: 0.5, ease: 'easeOut' }}
-              className="text-white/70 text-sm font-medium hover:text-white transition-colors cursor-pointer"
-            >
-              {link}
-            </motion.a>
-          ))}
+          {navLinks.map((link, i) => {
+            const isDashboard = link.toLowerCase() === 'dashboard';
+            const isBulletinPage = location.pathname === '/bulletin' || location.pathname === '/dashboard';
+            const isActive = isDashboard && isBulletinPage;
+
+            return (
+              <motion.a
+                key={link}
+                href={isDashboard ? '/bulletin' : `#${link.toLowerCase()}`}
+                onClick={(e) => handleNavClick(e, link)}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.05, duration: 0.5, ease: 'easeOut' }}
+                className={`text-sm font-medium transition-all cursor-pointer ${
+                  isActive
+                    ? 'text-white bg-white/10 px-3 py-1 rounded-full border border-white/20 shadow-xs'
+                    : 'text-white/70 hover:text-white'
+                }`}
+              >
+                {link}
+              </motion.a>
+            );
+          })}
         </div>
 
         {/* Right desktop: Log In / Sign Up button */}
@@ -126,19 +178,27 @@ export const Navbar: React.FC = () => {
             className="md:hidden max-w-6xl mx-auto px-6 mt-4"
           >
             <div className="liquid-glass rounded-2xl p-6 border border-white/10 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  onClick={(e) => {
-                    setMobileMenuOpen(false);
-                    scrollToSection(e, link);
-                  }}
-                  className="text-white/80 hover:text-white text-base font-medium py-1 transition-colors cursor-pointer"
-                >
-                  {link}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const isDashboard = link.toLowerCase() === 'dashboard';
+                const isBulletinPage = location.pathname === '/bulletin' || location.pathname === '/dashboard';
+                const isActive = isDashboard && isBulletinPage;
+
+                return (
+                  <a
+                    key={link}
+                    href={isDashboard ? '/bulletin' : `#${link.toLowerCase()}`}
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      handleNavClick(e, link);
+                    }}
+                    className={`text-base font-medium py-1 transition-colors cursor-pointer ${
+                      isActive ? 'text-white font-semibold' : 'text-white/80 hover:text-white'
+                    }`}
+                  >
+                    {link}
+                  </a>
+                );
+              })}
               <div className="pt-3 border-t border-white/10">
                 <button
                   id="mobile-drawer-download"
